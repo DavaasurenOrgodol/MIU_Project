@@ -38,6 +38,19 @@ public class MainMenu extends JFrame implements LibWindow {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton addNewMember = new JButton("Add New Member");
+		addNewMember.setBounds(40, 52, 117, 23);
+		contentPane.add(addNewMember);
+		
+		JButton addNewBook = new JButton("Add New Book");
+		addNewBook.setBounds(167, 52, 110, 23);
+		contentPane.add(addNewBook);
+		
+		JButton lookUp = new JButton("Lookup");
+		lookUp.setBounds(287, 52, 89, 23);
+		contentPane.add(lookUp);
 	}
 
 	@Override
@@ -50,6 +63,10 @@ public class MainMenu extends JFrame implements LibWindow {
 		JButton addMemberButton = new JButton("Add Member");
 		JButton addBookButton = new JButton("Add Book");
 		JButton addCopyButton = new JButton("Add Copy");
+		
+		adminFrame.getContentPane().add(addMemberButton);
+		adminFrame.getContentPane().add(addBookButton);
+		adminFrame.getContentPane().add(addCopyButton);
 	}
 
 	@Override
@@ -63,5 +80,4 @@ public class MainMenu extends JFrame implements LibWindow {
 		// TODO Auto-generated method stub
 
 	}
-
 }
