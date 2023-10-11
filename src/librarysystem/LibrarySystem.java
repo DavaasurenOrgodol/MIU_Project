@@ -35,7 +35,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE,
-		AddLibraryMemberWindow.INSTANCE
+//		AddLibraryMemberWindow.INSTANCE
 	};
     	
 	public static void hideAllWindows() {		
@@ -93,7 +93,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
- 	   options.add(addLibraryMembers);
+// 	   options.add(addLibraryMembers);
     }
     
     class LoginListener implements ActionListener {
