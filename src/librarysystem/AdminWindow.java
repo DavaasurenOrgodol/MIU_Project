@@ -12,8 +12,8 @@ import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
 
-public class MainMenu extends JFrame implements LibWindow {
-	public static final MainMenu INSTANCE = new MainMenu();
+public class AdminWindow extends JFrame implements LibWindow {
+	public static final AdminWindow INSTANCE = new AdminWindow();
 	private static final long serialVersionUID = 1L;
 	private boolean isInitialized = false;
 
@@ -26,7 +26,7 @@ public class MainMenu extends JFrame implements LibWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainMenu frame = new MainMenu();
+					AdminWindow frame = new AdminWindow();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class MainMenu extends JFrame implements LibWindow {
 	/**
 	 * Create the frame.
 	 */
-	public MainMenu() {
+	public AdminWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setTitle("Admin Menu");

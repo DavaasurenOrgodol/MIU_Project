@@ -177,7 +177,7 @@ public class BookWindow extends JFrame implements LibWindow {
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
-			MainMenu.INSTANCE.setVisible(true);
+			AdminWindow.INSTANCE.setVisible(true);
 		});
 	}
 
