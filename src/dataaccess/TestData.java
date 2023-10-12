@@ -1,5 +1,6 @@
 package dataaccess;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,31 +8,33 @@ import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.CheckoutRecord;
 import business.LibraryMember;
 
 /**
- * This class loads data into the data repository and also
- * sets up the storage units that are used in the application.
- * The main method in this class must be run once (and only
- * once) before the rest of the application can work properly.
- * It will create three serialized objects in the dataaccess.storage
+ * This class loads data into the data repository and also sets up the storage
+ * units that are used in the application. The main method in this class must be
+ * run once (and only once) before the rest of the application can work
+ * properly. It will create three serialized objects in the dataaccess.storage
  * folder.
  * 
  *
  */
 public class TestData {
-	
-	
+
 	public static void main(String[] args) {
 		TestData td = new TestData();
 		td.bookData();
 		td.libraryMemberData();
 		td.userData();
+		td.recordData();
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
+		System.out.println(da.readRecordsMap());
 	}
-	///create books
+
+	/// create books
 	public void bookData() {
 		allBooks.get(0).addCopy();
 		allBooks.get(0).addCopy();
@@ -41,31 +44,40 @@ public class TestData {
 		allBooks.get(2).addCopy();
 		DataAccessFacade.loadBookMap(allBooks);
 	}
-	
+
 	public void userData() {
 		DataAccessFacade.loadUserMap(allUsers);
 	}
-	
-	//create library members
+
+	// create library members
 	public void libraryMemberData() {
 		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));
 		members.add(libraryMember);
 		libraryMember = new LibraryMember("1002", "Drew", "Stevens", "702-998-2414", addresses.get(5));
 		members.add(libraryMember);
-		
+
 		libraryMember = new LibraryMember("1003", "Sarah", "Eagleton", "451-234-8811", addresses.get(6));
 		members.add(libraryMember);
-		
+
 		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
 		members.add(libraryMember);
-		
-		DataAccessFacade.loadMemberMap(members);	
+
+		DataAccessFacade.loadMemberMap(members);
 	}
-	
+
+	// create checkout record data
+	public void recordData() {
+		CheckoutRecord record = new CheckoutRecord(
+				new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
+				LocalDate.now(), LocalDate.now());
+		allRecords.add(record);
+		DataAccessFacade.loadRecordMap(allRecords);
+	}
+
 	///////////// DATA //////////////
 	List<LibraryMember> members = new ArrayList<LibraryMember>();
 	@SuppressWarnings("serial")
-	
+
 	List<Address> addresses = new ArrayList<Address>() {
 		{
 			add(new Address("101 S. Main", "Fairfield", "IA", "52556"));
@@ -88,23 +100,32 @@ public class TestData {
 			add(new Author("Sarah", "Connor", "123-422-2663", addresses.get(3), "Known for her clever style."));
 		}
 	};
-	
+
 	@SuppressWarnings("serial")
 	List<Book> allBooks = new ArrayList<Book>() {
 		{
 			add(new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))));
 			add(new Book("28-12331", "Antartica", 7, Arrays.asList(allAuthors.get(2))));
 			add(new Book("99-22223", "Thinking Java", 21, Arrays.asList(allAuthors.get(3))));
-			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));		
+			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));
 		}
 	};
-	
+
 	@SuppressWarnings("serial")
 	List<User> allUsers = new ArrayList<User>() {
 		{
 			add(new User("101", "xyz", Auth.LIBRARIAN));
 			add(new User("102", "abc", Auth.ADMIN));
 			add(new User("103", "111", Auth.BOTH));
+		}
+	};
+
+	@SuppressWarnings("serial")
+	List<CheckoutRecord> allRecords = new ArrayList<CheckoutRecord>() {
+		{
+			add(new CheckoutRecord(
+					new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
+					LocalDate.now(), LocalDate.now()));
 		}
 	};
 }

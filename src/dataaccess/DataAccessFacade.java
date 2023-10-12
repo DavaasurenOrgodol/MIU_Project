@@ -12,20 +12,19 @@ import java.util.List;
 
 import business.Book;
 import business.BookCopy;
+import business.CheckoutRecord;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade.StorageType;
 
 public class DataAccessFacade implements DataAccess {
 
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, CHECKOUT;
 	}
 	// Windows user can use
 
-	/*
-	 * public static final String OUTPUT_DIR = System.getProperty("user.dir") +
-	 * "\\src\\dataaccess\\storage";
-	 */
+	 //public static final String OUTPUT_DIR = System.getProperty("user.dir") +
+	 //"\\src\\dataaccess\\storage";
 
 	// For Mac Users path can use /
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/dataaccess/storage";
@@ -45,6 +44,12 @@ public class DataAccessFacade implements DataAccess {
 		// Returns a Map with name/value pairs being
 		// isbn -> Book
 		return (HashMap<String, Book>) readFromStorage(StorageType.BOOKS);
+	}
+	@SuppressWarnings("unchecked")
+	public HashMap<String, CheckoutRecord> readRecordsMap() {
+		// Returns a Map with name/value pairs being
+		// isbn -> Record
+		return (HashMap<String, CheckoutRecord>) readFromStorage(StorageType.CHECKOUT);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,6 +85,11 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
+	}
+	static void loadRecordMap(List<CheckoutRecord> recordList) {
+		HashMap<String, CheckoutRecord> records = new HashMap<String, CheckoutRecord>();
+		recordList.forEach(record -> records.put(record.getBook().getIsbn(), record));
+		saveToStorage(StorageType.CHECKOUT, records);
 	}
 
 	static void saveToStorage(StorageType type, Object ob) {
@@ -181,7 +191,7 @@ public class DataAccessFacade implements DataAccess {
 	@Override
 	public Book checkBookByISBN(String isbn) {
 		// TODO Auto-generated method stub
-		HashMap<String, Book> books = new HashMap<String, Book>();
+		HashMap<String, Book> books = readBooksMap();
 		for(Book book:books.values()) {
 			if (book.getIsbn().equals(isbn)) {
 				return book;
@@ -189,5 +199,15 @@ public class DataAccessFacade implements DataAccess {
 		}
 		return null;
 	}
+
+	@Override
+	public void saveCheckoutRecord(CheckoutRecord checkoutRecord) {
+		// TODO Auto-generated method stub
+		HashMap<String, CheckoutRecord> records = readRecordsMap();
+		String isbn = checkoutRecord.getBook().getIsbn();
+		records.put(isbn, checkoutRecord);
+		saveToStorage(StorageType.CHECKOUT, records);
+	}
+
 
 }
