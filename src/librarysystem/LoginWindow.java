@@ -195,6 +195,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 				c.login(username.getText().trim(), password.getText().trim());
 				JOptionPane.showMessageDialog(this, "Successful Login");
 				LibrarySystem.hideAllWindows();
+				
 				if (SystemController.currentAuth.equals(Auth.ADMIN)) {
 					AdminWindow.INSTANCE.init();
 					Util.centerFrameOnDesktop(AdminWindow.INSTANCE);
@@ -203,6 +204,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 					LibrarionWindow.INSTANCE.init();
 					Util.centerFrameOnDesktop(LibrarionWindow.INSTANCE);
 					LibrarionWindow.INSTANCE.setVisible(true);
+				} else if (SystemController.currentAuth.equals(Auth.BOTH)) {
+
 				}
 
 			} catch (LoginException ex) {
