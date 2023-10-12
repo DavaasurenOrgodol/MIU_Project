@@ -10,5 +10,6 @@ public interface ControllerInterface {
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 	public void saveBook(Book book);
+	public Book getInfo(String memId, String isbn);
 	
 }
