@@ -12,7 +12,7 @@ public interface DataAccess {
 	//public HashMap<String,CheckoutRecord> readRecordsMap();
 	public HashMap<String, LibraryMember> readMemberMap();
 	public void saveNewMember(LibraryMember member);
-	//public boolean checkMemberPresentOrNot(LibraryMember member);
+	public boolean checkMemberPresentOrNot(LibraryMember member);
 	public void saveNewBook(Book book); 
 	public boolean checkLibraryMemberById(String memId);
 	public Book checkBookByISBN(String isbn);
