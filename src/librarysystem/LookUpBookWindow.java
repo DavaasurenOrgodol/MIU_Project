@@ -92,7 +92,6 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
         detailsTextArea.setFont(new Font("Tahoma", Font.PLAIN, 12));
         detailsTextArea.setBounds(167, 154, 347, 285);
         detailsTextArea.setEditable(false); 
-        
 
         contentPane.add(detailsTextArea);
 

@@ -68,9 +68,14 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
+		
+		JButton addButn = new JButton("Add...");
+		addBookButtonListener(addButn);
+		
 		lowerPanel = new JPanel();
-		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));;
+		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		lowerPanel.add(backToMainButn);
+		lowerPanel.add(addButn);
 	}
 	
 	class BackToMainListener implements ActionListener {
@@ -107,5 +112,14 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 		
+	}
+	private void addBookButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+				LibrarySystem.hideAllWindows();
+				BookWindow.INSTANCE.init();
+				Util.centerFrameOnDesktop(BookWindow.INSTANCE);
+				BookWindow.INSTANCE.setVisible(true);
+
+		});
 	}
 }
