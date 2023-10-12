@@ -76,5 +76,12 @@ public class SystemController implements ControllerInterface {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
 		da.saveCheckoutRecord(record);
+	}
+
+	@Override
+	public Book getLookUpDetails(String ISBN) {
+		DataAccess da = new DataAccessFacade();
+		Book b=da.checkBookByISBN(ISBN);
+		return b;
 	}	
 }
