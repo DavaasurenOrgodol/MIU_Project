@@ -12,6 +12,7 @@ import java.util.List;
 
 import business.Book;
 import business.BookCopy;
+import business.Checkout;
 import business.LibraryMember;
 import business.LibrarySystemException;
 import dataaccess.DataAccessFacade.StorageType;
@@ -53,12 +54,12 @@ public class DataAccessFacade implements DataAccess {
 		// isbn -> Book
 		return (HashMap<String, Book>) readFromStorage(StorageType.BOOKS);
 	}
-	/*
-	 * @SuppressWarnings("unchecked") public HashMap<String, CheckoutRecord>
-	 * readRecordsMap() { // Returns a Map with name/value pairs being // isbn ->
-	 * Record return (HashMap<String, CheckoutRecord>)
-	 * readFromStorage(StorageType.CHECKOUT); }
-	 */
+
+	@SuppressWarnings("unchecked")
+	public HashMap<String, Checkout> readRecordsMap() {
+		// Returns a Map with name/value pairs being // isbn -> Record
+		return (HashMap<String, Checkout>) readFromStorage(StorageType.CHECKOUT);
+	}
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, LibraryMember> readMemberMap() {
@@ -94,12 +95,12 @@ public class DataAccessFacade implements DataAccess {
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
 	}
-	/*
-	 * static void loadRecordMap(List<CheckoutRecord> recordList) { HashMap<String,
-	 * CheckoutRecord> records = new HashMap<String, CheckoutRecord>();
-	 * recordList.forEach(record -> records.put(record.getBook().getIsbn(),
-	 * record)); saveToStorage(StorageType.CHECKOUT, records); }
-	 */
+
+	static void loadRecordMap(List<Checkout> recordList) {
+		HashMap<String, Checkout> records = new HashMap<String, Checkout>();
+		recordList.forEach(record -> records.put(record.getBook().getIsbn(), record));
+		saveToStorage(StorageType.CHECKOUT, records);
+	}
 
 	static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
@@ -209,19 +210,14 @@ public class DataAccessFacade implements DataAccess {
 		return null;
 	}
 
-	/*
-	 * @Override public boolean checkMemberPresentOrNot(LibraryMember member) { //
-	 * TODO Auto-generated method stub return false; }
-	 */
+	@Override
+	public void saveCheckoutRecord(Checkout checkoutRecord) {
+		// * TODO Auto-generated method stub
+		HashMap<String, Checkout> records = readRecordsMap();
+		String isbn = checkoutRecord.getBook().getIsbn();
+		records.put(isbn, checkoutRecord);
+		saveToStorage(StorageType.CHECKOUT, records);
 
-	/*
-	 * @Override public void saveCheckoutRecord(CheckoutRecord checkoutRecord) { //
-	 * TODO Auto-generated method stub HashMap<String, CheckoutRecord> records =
-	 * readRecordsMap(); String isbn = checkoutRecord.getBook().getIsbn();
-	 * records.put(isbn, checkoutRecord); saveToStorage(StorageType.CHECKOUT,
-	 * records);
-	 * 
-	 * }
-	 */
+	}
 
 }

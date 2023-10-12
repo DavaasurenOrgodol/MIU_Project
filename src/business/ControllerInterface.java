@@ -9,5 +9,5 @@ public interface ControllerInterface {
 	public void addMember(LibraryMember l)throws LibrarySystemException;
 	public void saveBook(Book book);
 	public Book getInfo(String memId, String isbn);
-	//public void saveRecord(CheckoutRecord record);
+	public void saveRecord(Checkout record);
 }
