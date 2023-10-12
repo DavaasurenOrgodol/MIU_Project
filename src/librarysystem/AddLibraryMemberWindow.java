@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 
@@ -50,6 +51,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 	private JLabel streetLabel;
 	private JLabel stateLabel;
 	private JLabel zipLabel;
+	private JLabel pictureLabel;
 
 	/**
 	 * Launch the application.
@@ -72,7 +74,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 	 */
 	public AddLibraryMemberWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(400, 400, 550, 500);
 		mainPane = new JPanel();
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -80,51 +82,56 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 		mainPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Add New Library Members");
-		lblNewLabel.setBounds(128, 0, 239, 25);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel.setBounds(171, -4, 239, 25);
 		mainPane.add(lblNewLabel);
 		
 		firstName = new JTextField();
-		firstName.setBounds(157, 47, 96, 20);
+		firstName.setBounds(215, 65, 96, 20);
 		mainPane.add(firstName);
 		firstName.setColumns(10);
 		
 		lastName = new JTextField();
-		lastName.setBounds(271, 47, 96, 20);
+		lastName.setBounds(391, 65, 96, 20);
 		mainPane.add(lastName);
 		lastName.setColumns(10);
 		
 		memberID = new JTextField();
-		memberID.setBounds(37, 47, 96, 20);
+		memberID.setBounds(43, 65, 96, 20);
 		memberID.setText(Integer.toString(RandomNumber.generateRandomFourDigitNumber()));
 		mainPane.add(memberID);
 		memberID.setColumns(10);
 		
 		telephone = new JTextField();
-		telephone.setBounds(37, 93, 96, 20);
+		telephone.setBounds(43, 116, 96, 20);
 		mainPane.add(telephone);
 		telephone.setColumns(10);
 		
 		city = new JTextField();
-		city.setBounds(157, 93, 96, 20);
+		city.setBounds(215, 116, 96, 20);
 		mainPane.add(city);
 		city.setColumns(10);
 		
 		street = new JTextField();
-		street.setBounds(271, 93, 96, 20);
+		street.setBounds(391, 116, 96, 20);
 		mainPane.add(street);
 		street.setColumns(10);
 		
 		state = new JTextField();
-		state.setBounds(37, 151, 96, 20);
+		state.setBounds(43, 183, 96, 20);
 		mainPane.add(state);
 		state.setColumns(10);
 		
 		zip = new JTextField();
-		zip.setBounds(157, 151, 96, 20);
+		zip.setBounds(215, 183, 96, 20);
 		mainPane.add(zip);
 		zip.setColumns(10);
 		
 		JButton submitButton = new JButton("Submit");
+		submitButton.setBackground(new Color(255, 255, 255));
+		submitButton.setFont(new Font("Tahoma", Font.BOLD, 18));
+		submitButton.setIcon(null);
+		submitButton.setForeground(new Color(102, 153, 0));
 		submitButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        String memberId = memberID.getText();
@@ -162,39 +169,39 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 		    }
 		        }
 		});
-		submitButton.setBounds(157, 229, 89, 23);
+		submitButton.setBounds(215, 214, 111, 38);
 		mainPane.add(submitButton);
 		
 		memberIDLabel = new JLabel("Member ID");
-		memberIDLabel.setBounds(59, 36, 62, 14);
+		memberIDLabel.setBounds(66, 50, 62, 14);
 		mainPane.add(memberIDLabel);
 		
 		firstNameLabel = new JLabel("First Name");
-		firstNameLabel.setBounds(172, 36, 67, 14);
+		firstNameLabel.setBounds(228, 50, 67, 14);
 		mainPane.add(firstNameLabel);
 		
 		lastNameLabel = new JLabel("LastName");
-		lastNameLabel.setBounds(287, 36, 49, 14);
+		lastNameLabel.setBounds(418, 50, 49, 14);
 		mainPane.add(lastNameLabel);
 		
 		telephoneLabel = new JLabel("Phone");
-		telephoneLabel.setBounds(59, 79, 49, 14);
+		telephoneLabel.setBounds(66, 96, 49, 14);
 		mainPane.add(telephoneLabel);
 		
 		cityLabel = new JLabel("City");
-		cityLabel.setBounds(186, 79, 49, 14);
+		cityLabel.setBounds(243, 96, 49, 14);
 		mainPane.add(cityLabel);
 		
 		streetLabel = new JLabel("Street");
-		streetLabel.setBounds(300, 79, 49, 14);
+		streetLabel.setBounds(418, 99, 49, 14);
 		mainPane.add(streetLabel);
 		
 		stateLabel = new JLabel("State");
-		stateLabel.setBounds(59, 137, 49, 14);
+		stateLabel.setBounds(66, 158, 49, 14);
 		mainPane.add(stateLabel);
 		
 		zipLabel = new JLabel("ZIP");
-		zipLabel.setBounds(186, 137, 49, 14);
+		zipLabel.setBounds(243, 158, 49, 14);
 		mainPane.add(zipLabel);
 		
 		JButton backButton = new JButton("<---");
@@ -205,6 +212,11 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 			 AddLibraryMemberWindow.this.setVisible(false);
 		}});
 		mainPane.add(backButton);
+		
+		pictureLabel = new JLabel("");
+		pictureLabel.setIcon(new ImageIcon(AddLibraryMemberWindow.class.getResource("/librarysystem/book.jpg")));
+		pictureLabel.setBounds(10, 263, 516, 189);
+		mainPane.add(pictureLabel);
 	}
 
 	@Override

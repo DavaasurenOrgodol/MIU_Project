@@ -1,15 +1,21 @@
 package librarysystem;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
 
 public class LookUpBookWindow extends JFrame implements LibWindow {
 
@@ -17,6 +23,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	public static final LookUpBookWindow INSTANCE = new LookUpBookWindow();
 	private JPanel contentPane;
 	private JTextField iSBNNumberField;
+	private JTextArea detailsTextArea;
 
 	/**
 	 * Launch the application.
@@ -39,33 +46,49 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	 */
 	public LookUpBookWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(400, 400, 550, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lookupLabel = new JLabel("Search book");
-		lookupLabel.setBounds(169, 11, 116, 36);
+		JLabel lookupLabel = new JLabel("LookUp Book");
+		lookupLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lookupLabel.setBounds(167, 12, 160, 36);
 		contentPane.add(lookupLabel);
 		
-		JLabel enterISBNLabel = new JLabel("EnterISBN");
-		enterISBNLabel.setBounds(32, 63, 55, 14);
+		JLabel enterISBNLabel = new JLabel("EnterISBN:");
+		enterISBNLabel.setBounds(167, 59, 67, 14);
 		contentPane.add(enterISBNLabel);
 		
 		iSBNNumberField = new JTextField();
-		iSBNNumberField.setBounds(20, 98, 96, 20);
+		iSBNNumberField.setBounds(233, 56, 128, 20);
 		contentPane.add(iSBNNumberField);
 		iSBNNumberField.setColumns(10);
 		
-		JButton submitButton = new JButton("Submit");
+		JButton submitButton = new JButton("Search");
+		submitButton.setHorizontalAlignment(SwingConstants.LEFT);
+		submitButton.setBackground(new Color(255, 255, 255));
+		submitButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		submitButton.setIcon(new ImageIcon(LookUpBookWindow.class.getResource("/librarysystem/search1.gif")));
+		submitButton.setForeground(new Color(102, 153, 0));
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String details = "Book Details\n Book Title: Example Book\nAuthor: John Doe\nISBN: 1234567890";
+                detailsTextArea.setText(details);
 			}
 		});
-		submitButton.setBounds(169, 157, 89, 23);
+		submitButton.setBounds(233, 84, 119, 45);
+		
 		contentPane.add(submitButton);
+        detailsTextArea = new JTextArea();
+        detailsTextArea.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        detailsTextArea.setBounds(167, 154, 347, 285);
+        detailsTextArea.setEditable(false); 
+        detailsTextArea.setBackground(new Color(0, 0, 0, 0));
+        contentPane.add(detailsTextArea);
+
 		
 		JButton backButton = new JButton("<---");
 		backButton.setBounds(10, 11, 60, 23);
@@ -73,6 +96,11 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 			LookUpBookWindow.this.setVisible(false);
 		}});
 		contentPane.add(backButton);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(LookUpBookWindow.class.getResource("/librarysystem/library4.jpg")));
+		lblNewLabel.setBounds(-11, 48, 157, 415);
+		contentPane.add(lblNewLabel);
 	}
 
 	@Override
