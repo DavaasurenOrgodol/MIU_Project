@@ -8,6 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import business.Book;
+import business.BookCopy;
+import business.BookException;
+import business.SystemController;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -16,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.JSpinner;
 
 public class LookUpBookWindow extends JFrame implements LibWindow {
 
@@ -24,6 +31,10 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	private JPanel contentPane;
 	private JTextField iSBNNumberField;
 	private JTextArea detailsTextArea;
+	SystemController c=new SystemController();
+	private Book b;
+	private JTextField valuetextField;
+	
 
 	/**
 	 * Launch the application.
@@ -78,7 +89,9 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		submitButton.setForeground(new Color(102, 153, 0));
 		submitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String details = "Book Details\n Book Title: Example Book\nAuthor: John Doe\nISBN: 1234567890";
+				 b=c.getLookUpDetails(iSBNNumberField.getText());
+				
+				String details = "\tBook Details\n\n Title: "+b.getTitle() +"\n"+" Number of Copies:"+b.getNumCopies();
                 detailsTextArea.setText(details);
 			}
 		});
@@ -90,7 +103,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
         detailsTextArea.setBackground(new Color(230, 230, 230));
         
         detailsTextArea.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        detailsTextArea.setBounds(167, 154, 347, 285);
+        detailsTextArea.setBounds(156, 176, 347, 89);
         detailsTextArea.setEditable(false); 
 
         contentPane.add(detailsTextArea);
@@ -107,6 +120,30 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		lblNewLabel.setIcon(new ImageIcon(LookUpBookWindow.class.getResource("/librarysystem/library4.jpg")));
 		lblNewLabel.setBounds(-11, 48, 157, 415);
 		contentPane.add(lblNewLabel);
+		
+		JButton addCopyButton = new JButton("Add Copy");
+		addCopyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				b.addCopy(Integer.parseInt(valuetextField.getText()));
+				try {
+					c.saveBook(b);
+					b=c.getLookUpDetails(iSBNNumberField.getText());
+					String details = "\tBook Details\n\n Title: "+b.getTitle() +"\n"+" Number of Copies:"+b.getNumCopies();
+	                detailsTextArea.setText(details);
+				} catch (BookException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		addCopyButton.setBounds(299, 297, 89, 23);
+		contentPane.add(addCopyButton);
+		
+		valuetextField = new JTextField();
+		valuetextField.setBounds(256, 297, 33, 22);
+		contentPane.add(valuetextField);
+		valuetextField.setColumns(10);
 	}
 
 	@Override
