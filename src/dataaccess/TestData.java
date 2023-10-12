@@ -8,7 +8,6 @@ import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
-import business.CheckoutRecord;
 import business.LibraryMember;
 
 /**
@@ -27,11 +26,11 @@ public class TestData {
 		td.bookData();
 		td.libraryMemberData();
 		td.userData();
-		td.recordData();
+		//td.recordData();
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
-		System.out.println(da.readRecordsMap());
+		//System.out.println(da.readRecordsMap());
 	}
 
 	/// create books
@@ -66,13 +65,13 @@ public class TestData {
 	}
 
 	// create checkout record data
-	public void recordData() {
+	/*public void recordData() {
 		CheckoutRecord record = new CheckoutRecord(
 				new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
 				LocalDate.now(), LocalDate.now());
 		allRecords.add(record);
 		DataAccessFacade.loadRecordMap(allRecords);
-	}
+	}*/
 
 	///////////// DATA //////////////
 	List<LibraryMember> members = new ArrayList<LibraryMember>();
@@ -120,12 +119,12 @@ public class TestData {
 		}
 	};
 
-	@SuppressWarnings("serial")
+	/*@SuppressWarnings("serial")
 	List<CheckoutRecord> allRecords = new ArrayList<CheckoutRecord>() {
 		{
 			add(new CheckoutRecord(
 					new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
 					LocalDate.now(), LocalDate.now()));
 		}
-	};
+	};*/
 }

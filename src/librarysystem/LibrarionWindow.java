@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import business.Book;
-import business.CheckoutRecord;
 import business.ControllerInterface;
 import business.SystemController;
 
@@ -28,7 +27,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	private JTextField memId;
 	private JTextField isbn;
 	private JList list;
-	List<CheckoutRecord> records = new ArrayList<CheckoutRecord>();
+	//List<CheckoutRecord> records = new ArrayList<CheckoutRecord>();
 	List<String> rList = new ArrayList<String>();
 
 	/**
@@ -111,14 +110,14 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 
 	private void searchButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			ControllerInterface c = new SystemController();
+			/*ControllerInterface c = new SystemController();
 			Book book = c.getInfo(memId.getText(), isbn.getText());
 			CheckoutRecord recd = new CheckoutRecord(book, LocalDate.now(),
 					LocalDate.now().plusDays(book.getMaxCheckoutLength()));
 			records.add(recd);
 			rList.add(book.getIsbn() + " " + book.getTitle() + " " + LocalDate.now().toString() + " "
 					+ LocalDate.now().plusDays(book.getMaxCheckoutLength()).toString());
-			list.setListData(rList.toArray());
+			list.setListData(rList.toArray());*/
 
 		});
 	}
@@ -126,7 +125,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	private void chkButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			ControllerInterface c = new SystemController();
-			records.forEach(e -> c.saveRecord(e));
+			//records.forEach(e -> c.saveRecord(e));
 		});
 	}
 
