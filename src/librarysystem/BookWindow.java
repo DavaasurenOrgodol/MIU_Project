@@ -21,9 +21,11 @@ import javax.swing.table.DefaultTableModel;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.BookException;
 import business.ControllerInterface;
 import business.SystemController;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 
 public class BookWindow extends JFrame implements LibWindow {
@@ -33,8 +35,10 @@ public class BookWindow extends JFrame implements LibWindow {
 	private JPanel contentPane;
 	private JTextField isbn;
 	private JTextField title;
-	private JTable table;
+	static JTable table;
 	private JLabel isbnLabel;
+	private JSpinner checkoutLen;
+	private JSpinner numOfCopies;
 	static List<Author> authors = new ArrayList<>();
 	private boolean isInitialized = false;
 
@@ -118,13 +122,13 @@ public class BookWindow extends JFrame implements LibWindow {
 		table.setFillsViewportHeight(true);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null }, },
-				new String[] { "First Name", "Last Name", "City", "Street", "State", "Zip Code" }) {
-			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
-					Long.class };
+		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, },
+				new String[] { "First Name", "Last Name", "Bio", "Telephone", "City", "Street", "State", "Zip Code" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, Object.class, Object.class, String.class,
+					String.class, String.class, Long.class };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -136,21 +140,22 @@ public class BookWindow extends JFrame implements LibWindow {
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println(table.getModel().getValueAt(0, 0));
-				//LibrarySystem.hideAllWindows();
-				AuthorWindow.INSTANCE.init();
-				Util.centerFrameOnDesktop(AuthorWindow.INSTANCE);
-				AuthorWindow.INSTANCE.setVisible(true);
+				/*
+				 * AuthorWindow.row = table.getSelectedRow();
+				 * System.out.println(table.getSelectedRow()); AuthorWindow.INSTANCE.init();
+				 * Util.centerFrameOnDesktop(AuthorWindow.INSTANCE);
+				 * AuthorWindow.INSTANCE.setVisible(true);
+				 */
 			}
-			
+
 		});
 		scrollPane.setViewportView(table);
 
-		JSpinner numOfCopies = new JSpinner();
+		numOfCopies = new JSpinner();
 		numOfCopies.setBounds(188, 53, 30, 20);
 		contentPane.add(numOfCopies);
 
-		JSpinner checkoutLen = new JSpinner();
+		checkoutLen = new JSpinner();
 		checkoutLen.setBounds(188, 81, 30, 20);
 		contentPane.add(checkoutLen);
 
@@ -177,15 +182,72 @@ public class BookWindow extends JFrame implements LibWindow {
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
+			BookWindow.INSTANCE.setVisible(false);
 			AdminWindow.INSTANCE.setVisible(true);
 		});
 	}
 
 	private void addButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			ControllerInterface c = new SystemController();	
-			Book book = new Book(isbn.getText(),title.getText(),0,authors);
-			c.saveBook(book);
+			try {
+				ControllerInterface c = new SystemController();
+				addAuthors(table);
+				Book book = new Book(isbn.getText(), title.getText(),
+						Integer.valueOf(checkoutLen.getModel().getValue().toString()), authors);
+				c.saveBook(book);
+				JOptionPane.showMessageDialog(this, "Successfully added.");
+				LibrarySystem.hideAllWindows();
+				BookWindow.INSTANCE.setVisible(false);
+				AdminWindow.INSTANCE.setVisible(true);
+			} catch (BookException e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+
 		});
+	}
+
+	public void addAuthors(JTable table) {
+		for (int i = 0; i < table.getRowCount(); i++) {
+			String fname = "";
+			String lname = "";
+			String telephone = "";
+			String bio = "";
+			String street = "";
+			String city = "";
+			String state = "";
+			String zip = "";
+			for (int j = 0; j < table.getColumnCount(); j++) {
+				if (table.getModel().getValueAt(i, j) != null) {
+					if (j == 0) {
+						fname = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 1) {
+						lname = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 2) {
+						bio = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 3) {
+						telephone = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 4) {
+						city = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 5) {
+						street = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 6) {
+						state = table.getModel().getValueAt(i, j).toString();
+					}
+					if (j == 7) {
+						zip = table.getModel().getValueAt(i, j).toString();
+					}
+					Address address = new Address(street, city, state, zip);
+					Author author = new Author(fname, lname, telephone, address, bio);
+					authors.add(author);
+				}
+			}
+
+		}
 	}
 }

@@ -53,9 +53,25 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void saveBook(Book book) {
+	public void saveBook(Book book) throws BookException {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> map = da.readBooksMap();
+		if (book.getIsbn().equals("")) {
+			throw new BookException("ISBN must be filled.");
+		}
+		if (book.getNumCopies() < 0 ) {
+			throw new BookException("Number of sopies must be greater than 0.");
+		}
+		if (book.getMaxCheckoutLength() <= 0) {
+			throw new BookException("Maximuim checkout length must be greater than 0.");
+		}
+		if (book.getTitle().equals("")) {
+			throw new BookException("Book title must be filled.");
+		}
+		if (map.containsKey(book.getIsbn())) {
+			throw new BookException("ISBN must be unique.");
+		}
 		da.saveNewBook(book);
 	}
 
@@ -71,17 +87,17 @@ public class SystemController implements ControllerInterface {
 		}
 		return null;
 	}
+
 	@Override
 	public void saveRecord(Checkout record) {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
 		da.saveCheckoutRecord(record);
 	}
-
 	@Override
 	public Book getLookUpDetails(String ISBN) {
 		DataAccess da = new DataAccessFacade();
 		Book b=da.checkBookByISBN(ISBN);
 		return b;
-	}	
+	}
 }

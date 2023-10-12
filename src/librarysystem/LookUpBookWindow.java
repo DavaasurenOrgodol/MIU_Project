@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.Book;
 import business.BookCopy;
+import business.BookException;
 import business.SystemController;
 
 import javax.swing.JLabel;
@@ -124,10 +125,15 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		addCopyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				b.addCopy(Integer.parseInt(valuetextField.getText()));
-				c.saveBook(b);
-				b=c.getLookUpDetails(iSBNNumberField.getText());
-				String details = "\tBook Details\n\n Title: "+b.getTitle() +"\n"+" Number of Copies:"+b.getNumCopies();
-                detailsTextArea.setText(details);
+				try {
+					c.saveBook(b);
+					b=c.getLookUpDetails(iSBNNumberField.getText());
+					String details = "\tBook Details\n\n Title: "+b.getTitle() +"\n"+" Number of Copies:"+b.getNumCopies();
+	                detailsTextArea.setText(details);
+				} catch (BookException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
