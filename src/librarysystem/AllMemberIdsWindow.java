@@ -91,5 +91,3 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	}
 	
 }
-
-
