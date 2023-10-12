@@ -1,16 +1,21 @@
 package librarysystem;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import librarysystem.LibrarySystem.AddLibraryMemberWindowListener;
+
 public class MainMenu extends JFrame implements LibWindow {
 	public static final MainMenu INSTANCE = new MainMenu();
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+ 
 
 	/**
 	 * Launch the application.
@@ -20,6 +25,7 @@ public class MainMenu extends JFrame implements LibWindow {
 			public void run() {
 				try {
 					MainMenu frame = new MainMenu();
+					frame.init(); 
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,6 +33,18 @@ public class MainMenu extends JFrame implements LibWindow {
 			}
 		});
 	}
+	  class AddLibraryMemberWindowListener implements ActionListener {
+
+	  		@Override
+	  		public void actionPerformed(ActionEvent e) {
+	  			LibrarySystem.hideAllWindows();
+	  			AddLibraryMemberWindow.INSTANCE.init();
+	  			Util.centerFrameOnDesktop(AddLibraryMemberWindow.INSTANCE);
+	  			AddLibraryMemberWindow.INSTANCE.setVisible(true);
+	  			
+	  		}
+	      	
+	      }
 
 	/**
 	 * Create the frame.
@@ -42,6 +60,7 @@ public class MainMenu extends JFrame implements LibWindow {
 		
 		JButton addNewMember = new JButton("Add New Member");
 		addNewMember.setBounds(40, 52, 117, 23);
+		addNewMember.addActionListener(new AddLibraryMemberWindowListener());
 		contentPane.add(addNewMember);
 		
 		JButton addNewBook = new JButton("Add New Book");
@@ -68,6 +87,7 @@ public class MainMenu extends JFrame implements LibWindow {
 		adminFrame.getContentPane().add(addBookButton);
 		adminFrame.getContentPane().add(addCopyButton);
 	}
+	
 
 	@Override
 	public boolean isInitialized() {

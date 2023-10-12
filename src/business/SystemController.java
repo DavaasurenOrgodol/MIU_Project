@@ -40,9 +40,15 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+
+	
 	@Override
 	public void addMember(LibraryMember l) throws LibrarySystemException {
 		DataAccess da = new DataAccessFacade();
+		if(da.checkMemberPresentOrNot(l))
+		{
+			throw new LibrarySystemException("Duplicate Member ID");
+		}
 		da.saveNewMember(l);
 		return ;
 	}

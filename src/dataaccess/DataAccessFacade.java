@@ -12,6 +12,7 @@ import java.util.List;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
+import business.LibrarySystemException;
 import dataaccess.DataAccessFacade.StorageType;
 
 
@@ -30,6 +31,16 @@ public class DataAccessFacade implements DataAccess {
 //			+ "/src/dataaccess/storage";
 	
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
+	public boolean checkMemberPresentOrNot(LibraryMember member) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		String memberId = member.getMemberId();
+		if (mems.containsKey(memberId))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	
 	//implement: other save operations
 	public void saveNewMember(LibraryMember member) {
