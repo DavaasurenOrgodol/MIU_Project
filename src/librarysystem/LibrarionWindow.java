@@ -1,17 +1,22 @@
 package librarysystem;
 
 import java.awt.EventQueue;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import business.Book;
+import business.CheckoutRecord;
 import business.ControllerInterface;
 import business.SystemController;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 
@@ -22,6 +27,9 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	private boolean isInitialized = false;
 	private JTextField memId;
 	private JTextField isbn;
+	private JList list;
+	List<CheckoutRecord> records = new ArrayList<CheckoutRecord>();
+	List<String> rList = new ArrayList<String>();
 
 	/**
 	 * Launch the application.
@@ -73,8 +81,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 		searchButton.setBounds(318, 35, 89, 23);
 		searchButtonListener(searchButton);
 		contentPane.add(searchButton);
-
-		JList list = new JList();
+		list = new JList();
 		list.setBounds(23, 90, 384, 118);
 		contentPane.add(list);
 
@@ -106,17 +113,20 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 		butn.addActionListener(evt -> {
 			ControllerInterface c = new SystemController();
 			Book book = c.getInfo(memId.getText(), isbn.getText());
-			if (book.getNumCopies() > book.getCopies().length) {
-
-			}
+			CheckoutRecord recd = new CheckoutRecord(book, LocalDate.now(),
+					LocalDate.now().plusDays(book.getMaxCheckoutLength()));
+			records.add(recd);
+			rList.add(book.getIsbn() + " " + book.getTitle() + " " + LocalDate.now().toString() + " "
+					+ LocalDate.now().plusDays(book.getMaxCheckoutLength()).toString());
+			list.setListData(rList.toArray());
 
 		});
 	}
 
 	private void chkButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			LibrarySystem.hideAllWindows();
-			LibrarySystem.INSTANCE.setVisible(true);
+			ControllerInterface c = new SystemController();
+			records.forEach(e -> c.saveRecord(e));
 		});
 	}
 

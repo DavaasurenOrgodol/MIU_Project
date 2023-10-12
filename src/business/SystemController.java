@@ -62,4 +62,11 @@ public class SystemController implements ControllerInterface {
 		return null;
 	}
 
+	@Override
+	public void saveRecord(CheckoutRecord record) {
+		// TODO Auto-generated method stub
+		DataAccess da = new DataAccessFacade();
+		da.saveCheckoutRecord(record);
+	}
+
 }
