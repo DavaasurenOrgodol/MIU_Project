@@ -29,7 +29,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	private boolean isInitialized = false;
 
 	private static LibWindow[] allWindows = { LibrarySystem.INSTANCE, LoginWindow.INSTANCE, AllMemberIdsWindow.INSTANCE,
-			AllBookIdsWindow.INSTANCE, AdminWindow.INSTANCE, BookWindow.INSTANCE, AuthorWindow.INSTANCE };
+			AllBookIdsWindow.INSTANCE,
+
+	};
 
 	public static void hideAllWindows() {
 		for (LibWindow frame : allWindows) {
@@ -83,9 +85,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		allBookIds.addActionListener(new AllBookIdsListener());
 		allMemberIds = new JMenuItem("All Member Ids");
 		allMemberIds.addActionListener(new AllMemberIdsListener());
+
 		options.add(login);
 		options.add(allBookIds);
 		options.add(allMemberIds);
+
 	}
 
 	class LoginListener implements ActionListener {
@@ -117,7 +121,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			System.out.println(sb.toString());
 			AllBookIdsWindow.INSTANCE.setData(sb.toString());
 			AllBookIdsWindow.INSTANCE.pack();
-			// AllBookIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllBookIdsWindow.INSTANCE);
 			AllBookIdsWindow.INSTANCE.setVisible(true);
 
@@ -146,6 +149,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			System.out.println(sb.toString());
 			AllMemberIdsWindow.INSTANCE.setData(sb.toString());
 			AllMemberIdsWindow.INSTANCE.pack();
+			AllMemberIdsWindow.INSTANCE.setSize(660, 500);
 			// AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
@@ -156,13 +160,19 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
 	@Override
 	public boolean isInitialized() {
-		return isInitialized;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
-		isInitialized = val;
+		// TODO Auto-generated method stub
 
 	}
 
+	@Override
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
 }

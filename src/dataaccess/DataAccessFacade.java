@@ -13,6 +13,7 @@ import java.util.List;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
+import business.LibrarySystemException;
 import dataaccess.DataAccessFacade.StorageType;
 
 public class DataAccessFacade implements DataAccess {
@@ -21,15 +22,29 @@ public class DataAccessFacade implements DataAccess {
 		BOOKS, MEMBERS, USERS, CHECKOUT;
 	}
 	// Windows user can use
-
-	 //public static final String OUTPUT_DIR = System.getProperty("user.dir") +
-	 //"\\src\\dataaccess\\storage";
-
-	// For Mac Users path can use /
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/dataaccess/storage";
-
+	
+	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
+			+ "\\src\\dataaccess\\storage";
+	
+	// For Mac Users path can use / 
+	//public static final String OUTPUT_DIR = System.getProperty("user.dir") 
+	//		+ "/src/dataaccess/storage";
+	
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
+/*<<<<<<< HEAD
 
+=======
+	public boolean checkMemberPresentOrNot(LibraryMember member) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		String memberId = member.getMemberId();
+		if (mems.containsKey(memberId))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+>>>>>>> c7b43eba65c324fa8ee0ff4e71c1f0649780ade1*/
 	public void saveNewMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
@@ -197,6 +212,12 @@ public class DataAccessFacade implements DataAccess {
 		}
 		return null;
 	}
+
+	/*@Override
+	public boolean checkMemberPresentOrNot(LibraryMember member) {
+		// TODO Auto-generated method stub
+		return false;
+	}*/
 
 	/*@Override
 	public void saveCheckoutRecord(CheckoutRecord checkoutRecord) {

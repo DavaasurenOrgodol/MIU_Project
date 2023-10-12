@@ -43,6 +43,16 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public void addMember(LibraryMember l) throws LibrarySystemException {
+		DataAccess da = new DataAccessFacade();
+		/*if (da.checkMemberPresentOrNot(l)) {
+			throw new LibrarySystemException("Duplicate Member ID");
+		}*/
+		da.saveNewMember(l);
+		return;
+	}
+
+	@Override
 	public void saveBook(Book book) {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
@@ -65,13 +75,23 @@ public class SystemController implements ControllerInterface {
 	/*@Override
 	public void saveRecord(CheckoutRecord record) {
 		// TODO Auto-generated method stub
+		
+	}*/
+
+	/*@Override
+	public void saveRecord(CheckoutRecord record) {
+		// TODO Auto-generated method stub
 	@Override
 	public void saveRecord(CheckoutRecord record) {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
 		da.saveCheckoutRecord(record);
+<<<<<<< HEAD
 	}	
 	}*/
 
 
+/*=======
+	}
+>>>>>>> c7b43eba65c324fa8ee0ff4e71c1f0649780ade1*/
 }
