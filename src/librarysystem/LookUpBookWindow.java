@@ -48,10 +48,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 400, 550, 500);
 		contentPane = new JPanel();
-<<<<<<< HEAD
 		contentPane.setBackground(new Color(226, 226, 226));
-=======
->>>>>>> 8f564d96b86eae4311c29312e586e8420dd6d097
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -87,19 +84,15 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		
 		contentPane.add(submitButton);
         detailsTextArea = new JTextArea();
-<<<<<<< HEAD
         detailsTextArea.setBackground(new Color(230, 230, 230));
         
         detailsTextArea.setFont(new Font("Tahoma", Font.PLAIN, 12));
         detailsTextArea.setBounds(167, 154, 347, 285);
         detailsTextArea.setEditable(false); 
-        
-=======
         detailsTextArea.setFont(new Font("Tahoma", Font.PLAIN, 12));
         detailsTextArea.setBounds(167, 154, 347, 285);
         detailsTextArea.setEditable(false); 
         detailsTextArea.setBackground(new Color(0, 0, 0, 0));
->>>>>>> 8f564d96b86eae4311c29312e586e8420dd6d097
         contentPane.add(detailsTextArea);
 
 		
