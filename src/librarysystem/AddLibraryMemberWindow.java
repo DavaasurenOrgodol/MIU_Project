@@ -1,271 +1,227 @@
 package librarysystem;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.EventQueue;
 
-import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import business.Address;
 import business.LibraryMember;
 import business.LibrarySystemException;
+import business.RandomNumber;
 import business.SystemController;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JSeparator;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JToggleButton;
+import java.awt.Color;
+import java.awt.Font;
 
 public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 
-    private static final long serialVersionUID = 1L;
-    public static final AddLibraryMemberWindow INSTANCE = new AddLibraryMemberWindow();
+	private static final long serialVersionUID = 1L;
+	private JPanel mainPane;
+	public static final AddLibraryMemberWindow INSTANCE = new AddLibraryMemberWindow();
 
-    private boolean isInitialized = false;
+	private boolean isInitialized = false;
+	private JTextField firstName;
+	private JTextField lastName;
+	private JTextField memberID;
+	private JTextField telephone;
+	private JTextField city;
+	private JTextField street;
+	private JTextField state;
+	private JTextField zip;
+	private JLabel memberIDLabel;
+	/**
+	 * @wbp.nonvisual location=154,809
+	 */
 
-    private JPanel mainPanel;
-    private JPanel upperHalf;
-    private JPanel middleHalf;
-    private JPanel lowerHalf;
-  
+	private JLabel firstNameLabel;
+	private JLabel lastNameLabel;
+	private JLabel telephoneLabel;
+	private JLabel cityLabel;
+	private JLabel streetLabel;
+	private JLabel stateLabel;
+	private JLabel zipLabel;
 
-    private JPanel topPanel;
-    private JPanel middlePanel;
-    private JPanel lowerPanel;
-    private JPanel leftTextPanel;
-    private JPanel rightTextPanel;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AddLibraryMemberWindow frame = new AddLibraryMemberWindow();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-    private JTextField memberID;
-    private JTextField firstName;
-    private JTextField lastName;
-    private JTextField telephone;
-    private JTextField city;
-    private JTextField zip;
-    private JTextField state;
-    private JTextField street;
-  
+	/**
+	 * Create the frame.
+	 */
+	public AddLibraryMemberWindow() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		mainPane = new JPanel();
+		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-    private JLabel label;
-    private JButton submitButton;
-    
+		setContentPane(mainPane);
+		mainPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Add New Library Members");
+		lblNewLabel.setBounds(128, 0, 239, 25);
+		mainPane.add(lblNewLabel);
+		
+		firstName = new JTextField();
+		firstName.setBounds(157, 47, 96, 20);
+		mainPane.add(firstName);
+		firstName.setColumns(10);
+		
+		lastName = new JTextField();
+		lastName.setBounds(271, 47, 96, 20);
+		mainPane.add(lastName);
+		lastName.setColumns(10);
+		
+		memberID = new JTextField();
+		memberID.setBounds(37, 47, 96, 20);
+		memberID.setText(Integer.toString(RandomNumber.generateRandomFourDigitNumber()));
+		mainPane.add(memberID);
+		memberID.setColumns(10);
+		
+		telephone = new JTextField();
+		telephone.setBounds(37, 93, 96, 20);
+		mainPane.add(telephone);
+		telephone.setColumns(10);
+		
+		city = new JTextField();
+		city.setBounds(157, 93, 96, 20);
+		mainPane.add(city);
+		city.setColumns(10);
+		
+		street = new JTextField();
+		street.setBounds(271, 93, 96, 20);
+		mainPane.add(street);
+		street.setColumns(10);
+		
+		state = new JTextField();
+		state.setBounds(37, 151, 96, 20);
+		mainPane.add(state);
+		state.setColumns(10);
+		
+		zip = new JTextField();
+		zip.setBounds(157, 151, 96, 20);
+		mainPane.add(zip);
+		zip.setColumns(10);
+		
+		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String memberId = memberID.getText();
+		        String fName = firstName.getText();
+		        String lName = lastName.getText();
+		        String phone = telephone.getText();
+		        String cityVal = city.getText();
+		        String zipVal = zip.getText();
+		        String stateVal = state.getText();
+		        String streetVal = street.getText();
+		        if (memberId.isEmpty() || fName.isEmpty() || lName.isEmpty() || phone.isEmpty() || cityVal.isEmpty()
+		                || zipVal.isEmpty() || stateVal.isEmpty() || streetVal.isEmpty()) {
+		                // Display an error message if any field is empty
+		                JOptionPane.showMessageDialog(AddLibraryMemberWindow.this, "All fields are required.");
+		        }
+		                else
+		                {
+		                	
+		              
 
-    public void init() {
-        mainPanel = new JPanel();
-        defineUpperHalf();
-        defineMiddleHalf();
-        defineLowerHalf();
-        BorderLayout bl = new BorderLayout();
-        bl.setVgap(30);
-        mainPanel.setLayout(bl);
-        mainPanel.add(upperHalf, BorderLayout.NORTH);
-        mainPanel.add(middleHalf, BorderLayout.CENTER);
-        mainPanel.add(lowerHalf, BorderLayout.SOUTH);
-        getContentPane().add(mainPanel);
-        isInitialized(true);
-        pack();
-    }
+		        Address a = new Address(streetVal, cityVal, stateVal, zipVal);
+		        LibraryMember lb = new LibraryMember(memberId, fName, lName, phone, a);
+		        SystemController controller = new SystemController();
+		        try {
+		            controller.addMember(lb);
+		        } catch (LibrarySystemException ex) {
+		            ex.printStackTrace();
+		        }
 
-    private void defineUpperHalf() {
-        upperHalf = new JPanel();
-        upperHalf.setLayout(new BorderLayout());
-        defineTopPanel();
-        defineMiddlePanel();
-        defineLowerPanel();
-        upperHalf.add(topPanel, BorderLayout.NORTH);
-        upperHalf.add(middlePanel, BorderLayout.CENTER);
-        upperHalf.add(lowerPanel, BorderLayout.SOUTH);
-    }
+		        JOptionPane.showMessageDialog(AddLibraryMemberWindow.this, "Member Information:\n" +
+		                "Member ID: " + lb.getMemberId() + "\n" +
+		                "Name: " + lb.getFirstName() + " " + lb.getLastName() + "\n" +
+		                "Phone: " + lb.getTelephone() + "\n" +
+		                "Address: " + lb.getAddress());
+		    }
+		        }
+		});
+		submitButton.setBounds(157, 229, 89, 23);
+		mainPane.add(submitButton);
+		
+		memberIDLabel = new JLabel("Member ID");
+		memberIDLabel.setBounds(59, 36, 62, 14);
+		mainPane.add(memberIDLabel);
+		
+		firstNameLabel = new JLabel("First Name");
+		firstNameLabel.setBounds(172, 36, 67, 14);
+		mainPane.add(firstNameLabel);
+		
+		lastNameLabel = new JLabel("LastName");
+		lastNameLabel.setBounds(287, 36, 49, 14);
+		mainPane.add(lastNameLabel);
+		
+		telephoneLabel = new JLabel("Phone");
+		telephoneLabel.setBounds(59, 79, 49, 14);
+		mainPane.add(telephoneLabel);
+		
+		cityLabel = new JLabel("City");
+		cityLabel.setBounds(186, 79, 49, 14);
+		mainPane.add(cityLabel);
+		
+		streetLabel = new JLabel("Street");
+		streetLabel.setBounds(300, 79, 49, 14);
+		mainPane.add(streetLabel);
+		
+		stateLabel = new JLabel("State");
+		stateLabel.setBounds(59, 137, 49, 14);
+		mainPane.add(stateLabel);
+		
+		zipLabel = new JLabel("ZIP");
+		zipLabel.setBounds(186, 137, 49, 14);
+		mainPane.add(zipLabel);
+		
+		JButton backButton = new JButton("<---");
+		backButton.setFont(new Font("Tahoma", Font.BOLD, 8));
+		backButton.setForeground(new Color(128, 64, 64));
+		backButton.setBounds(0, 1, 49, 20);
+		backButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+			 AddLibraryMemberWindow.this.setVisible(false);
+		}});
+		mainPane.add(backButton);
+	}
 
-    private void defineMiddleHalf() {
-        middleHalf = new JPanel();
-        middleHalf.setLayout(new BorderLayout());
-        JSeparator s = new JSeparator();
-        s.setOrientation(SwingConstants.HORIZONTAL);
-        middleHalf.add(s, BorderLayout.SOUTH);
-    }
+	@Override
+	public boolean isInitialized() {
 
-    private void defineLowerHalf() {
-        lowerHalf = new JPanel();
-        lowerHalf.setLayout(new FlowLayout(FlowLayout.LEFT));
+		return isInitialized;
+	}
 
-        JButton backButton = new JButton("<= Back to Main");
-        addBackButtonListener(backButton);
-        lowerHalf.add(backButton);
-    }
+	@Override
+	public void isInitialized(boolean val) {
+		isInitialized = val;
 
-    private void defineTopPanel() {
-        topPanel = new JPanel();
-        JPanel intPanel = new JPanel(new BorderLayout());
-        intPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        JLabel addLibraryMemberLabel = new JLabel("Add Library Member Details");
-        Util.adjustLabelFont(addLibraryMemberLabel, Color.BLUE.darker(), true);
-        intPanel.add(addLibraryMemberLabel, BorderLayout.CENTER);
-        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        topPanel.add(intPanel);
-    }
+	}
 
-    private void defineMiddlePanel() {
-        middlePanel = new JPanel();
-        middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        defineLeftTextPanel();
-        defineRightTextPanel();
-        defineMidTextPanel();
-        middlePanel.add(leftTextPanel);
-        middlePanel.add(rightTextPanel);
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
 
-    }
-
-    private void defineLowerPanel() {
-        lowerPanel = new JPanel();
-        submitButton = new JButton("Submit");
-        addSubmitButtonListener(submitButton);
-        lowerPanel.add(submitButton);
-    }
-
-    private void defineMidTextPanel() {
-
-        JPanel topText = new JPanel();
-        JPanel bottomText = new JPanel();
-        topText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        bottomText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-
-        memberID = new JTextField(10);
-        label = new JLabel("MemberID");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(memberID);
-        bottomText.add(label);
-
-        firstName = new JTextField(10);
-        label = new JLabel("FirstName");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(firstName);
-        bottomText.add(label);
-
-        telephone = new JTextField(10);
-        label = new JLabel("Telephone");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(telephone);
-        bottomText.add(label);
-
-        city = new JTextField(10);
-        label = new JLabel("City");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(city);
-        bottomText.add(label);
-
-        zip = new JTextField(10);
-        label = new JLabel("ZIP");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(zip);
-        bottomText.add(label);
-
-        state = new JTextField(10);
-        label = new JLabel("State");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(state);
-        bottomText.add(label);
-
-        street = new JTextField(10);
-        label = new JLabel("Street");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(street);
-        bottomText.add(label);
-
-       
-
-        leftTextPanel = new JPanel();
-        leftTextPanel.setLayout(new BorderLayout());
-        leftTextPanel.add(topText, BorderLayout.NORTH);
-        leftTextPanel.add(bottomText, BorderLayout.CENTER);
-    }
-
-    private void defineLeftTextPanel() {
-        JPanel topText = new JPanel();
-        JPanel bottomText = new JPanel();
-        topText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        bottomText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-
-        memberID = new JTextField(10);
-        label = new JLabel("MemberID");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(memberID);
-        bottomText.add(label);
-
-        leftTextPanel = new JPanel();
-        leftTextPanel.setLayout(new BorderLayout());
-        leftTextPanel.add(topText, BorderLayout.NORTH);
-        leftTextPanel.add(bottomText, BorderLayout.CENTER);
-    }
-
-    private void defineRightTextPanel() {
-        JPanel topText = new JPanel();
-        JPanel bottomText = new JPanel();
-        topText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        bottomText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
-
-        lastName = new JTextField(10);
-        label = new JLabel("LastName");
-        label.setFont(Util.makeSmallFont(label.getFont()));
-        topText.add(lastName);
-        bottomText.add(label);
-
-        rightTextPanel = new JPanel();
-        rightTextPanel.setLayout(new BorderLayout());
-        rightTextPanel.add(topText, BorderLayout.NORTH);
-        rightTextPanel.add(bottomText, BorderLayout.CENTER);
-    }
-
-    private void addBackButtonListener(JButton butn) {
-        butn.addActionListener(evt -> {
-            LibrarySystem.hideAllWindows();
-            LibrarySystem.INSTANCE.setVisible(true);
-        });
-    }
-
-    private void addSubmitButtonListener(JButton butn) {
-        butn.addActionListener(evt -> {
-            // Access the values entered by the user
-            String memberId = memberID.getText();
-            String fName = firstName.getText();
-            String lName = lastName.getText();
-            String phone = telephone.getText();
-            String cityVal = city.getText();
-            String zipVal = zip.getText();
-            String stateVal = state.getText();
-            String streetVal = street.getText();
-           
-            
-            Address a=new Address(streetVal,cityVal, stateVal,zipVal);
-            LibraryMember lb = new LibraryMember(memberId, fName, lName, phone,a);
-            SystemController controller = new SystemController();
-            try
-            {
-            controller.addMember(lb);
-            }
-            catch (LibrarySystemException e)
-            {
-            	e.printStackTrace();
-            }
-
-            JOptionPane.showMessageDialog(this, "Member Information:\n" +
-                    "Member ID: " + lb.getMemberId() + "\n" +
-                    "Name: " + lb.getFirstName() + " " + lb.getLastName() + "\n" +
-                    "Phone: " + lb.getTelephone() + "\n" +
-                    "Address: " + lb.getAddress());
-        });
-    }
-    @Override
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-
-    @Override
-    public void isInitialized(boolean val) {
-        isInitialized = val;
-    }
+	}
 }
