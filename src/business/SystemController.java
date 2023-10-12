@@ -45,9 +45,9 @@ public class SystemController implements ControllerInterface {
 	@Override
 	public void addMember(LibraryMember l) throws LibrarySystemException {
 		DataAccess da = new DataAccessFacade();
-		/*if (da.checkMemberPresentOrNot(l)) {
+		if (da.checkMemberPresentOrNot(l)) {
 			throw new LibrarySystemException("Duplicate Member ID");
-		}*/
+		}
 		da.saveNewMember(l);
 		return;
 	}
