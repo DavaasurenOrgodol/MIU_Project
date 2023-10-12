@@ -3,7 +3,7 @@ package business;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-final public class CheckoutRecord implements Serializable{
+final public class Checkout implements Serializable{
 	/**
 	 * 
 	 */
@@ -11,7 +11,7 @@ final public class CheckoutRecord implements Serializable{
 	private Book book;
 	private LocalDate checkoutDate;
 	private LocalDate dueDate;
-	public CheckoutRecord(Book book,LocalDate checkoutDate, LocalDate dueDate){
+	public Checkout(Book book,LocalDate checkoutDate, LocalDate dueDate){
 		this.book = book;
 		this.checkoutDate = checkoutDate;
 		this.dueDate = dueDate;
