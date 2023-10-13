@@ -8,7 +8,9 @@ public interface ControllerInterface {
 	public List<String> allBookIds();
 	public void addMember(LibraryMember l)throws LibrarySystemException;
 	public void saveBook(Book book) throws BookException;
-	public Book getInfo(String memId, String isbn);
+	public void updateBook(Book book) throws BookException;
+	public Book getInfo(String memId, String isbn) throws BookException;
 	public Book getLookUpDetails(String ISBN);
 	public void saveRecord(Checkout record);
+	public int getAvailableCopyNum(BookCopy[] copies);
 }

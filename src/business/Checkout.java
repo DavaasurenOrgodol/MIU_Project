@@ -9,9 +9,11 @@ final public class Checkout implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Book book;
+	private String memId;
 	private LocalDate checkoutDate;
 	private LocalDate dueDate;
-	public Checkout(Book book,LocalDate checkoutDate, LocalDate dueDate){
+	public Checkout(String memId,Book book,LocalDate checkoutDate, LocalDate dueDate){
+		this.memId = memId;
 		this.book = book;
 		this.checkoutDate = checkoutDate;
 		this.dueDate = dueDate;
@@ -24,6 +26,12 @@ final public class Checkout implements Serializable{
 	}
 	public LocalDate getDueDate() {
 		return dueDate;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public String getMemId() {
+		return memId;
 	}
 	@Override
 	public String toString() {
