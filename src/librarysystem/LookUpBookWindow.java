@@ -126,7 +126,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 			public void actionPerformed(ActionEvent e) {
 				b.addCopy(Integer.parseInt(valuetextField.getText()));
 				try {
-					c.saveBook(b);
+					c.editBook(b);;
 					b=c.getLookUpDetails(iSBNNumberField.getText());
 					String details = "\tBook Details\n\n Title: "+b.getTitle() +"\n"+" Number of Copies:"+b.getNumCopies();
 	                detailsTextArea.setText(details);

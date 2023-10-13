@@ -11,4 +11,5 @@ public interface ControllerInterface {
 	public Book getInfo(String memId, String isbn);
 	public Book getLookUpDetails(String ISBN);
 	public void saveRecord(Checkout record);
+	public void editBook(Book book) throws BookException;
 }

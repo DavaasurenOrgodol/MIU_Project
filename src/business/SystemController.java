@@ -87,6 +87,7 @@ public class SystemController implements ControllerInterface {
 		}
 		return null;
 	}
+	
 
 	@Override
 	public void saveRecord(Checkout record) {
@@ -99,5 +100,13 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		Book b=da.checkBookByISBN(ISBN);
 		return b;
+	}
+
+	@Override
+	public void editBook(Book book) throws BookException {
+		// TODO Auto-generated method stub
+		DataAccess da = new DataAccessFacade();
+		da.editSelectedBook(book);
+		
 	}
 }
