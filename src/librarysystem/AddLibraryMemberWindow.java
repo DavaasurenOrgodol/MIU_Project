@@ -11,6 +11,8 @@ import business.LibraryMember;
 import business.LibrarySystemException;
 import business.RandomNumber;
 import business.SystemController;
+import business.UtilityClass;
+import dataaccess.Auth;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -76,7 +78,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 	public AddLibraryMemberWindow() {
 		setSize(660, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(400, 400, 550, 500);
+		UtilityClass.centerFrameOnDesktop(this);
 		mainPane = new JPanel();
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -85,7 +87,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 
 		JLabel lblNewLabel = new JLabel("Add New Library Members");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel.setBounds(169, 14, 239, 25);
+		lblNewLabel.setBounds(199, 11, 239, 25);
 		mainPane.add(lblNewLabel);
 
 		firstName = new JTextField();
@@ -204,7 +206,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 				
 			}
 		});
-		submitButton.setBounds(226, 221, 91, 31);
+		submitButton.setBounds(248, 230, 91, 31);
 		mainPane.add(submitButton);
 
 		memberIDLabel = new JLabel("Member ID");
@@ -247,18 +249,22 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddLibraryMemberWindow.this.setVisible(false);
+				if(SystemController.currentAuth.equals(Auth.ADMIN))
+				AdminWindow.INSTANCE.setVisible(true);
+				else
+					BothUserWindow.INSTANCE.setVisible(true);
 			}
 		});
 		mainPane.add(backButton);
 
 		pictureLabel = new JLabel("");
 		pictureLabel.setIcon(new ImageIcon(AddLibraryMemberWindow.class.getResource("/librarysystem/book.jpg")));
-		pictureLabel.setBounds(10, 263, 516, 189);
+		pictureLabel.setBounds(0, 278, 666, 219);
 		mainPane.add(pictureLabel);
 
 		JLabel addressLabel = new JLabel("Address");
 		addressLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		addressLabel.setBounds(194, 142, 82, 20);
+		addressLabel.setBounds(261, 142, 82, 20);
 		mainPane.add(addressLabel);
 
 		JSeparator separator = new JSeparator();

@@ -19,5 +19,6 @@ public interface DataAccess {
 	public boolean checkLibraryMemberById(String memId);
 	public Book checkBookByISBN(String isbn);
 	public void saveCheckoutRecord(Checkout checkoutRecord);
+	public void updateBook(Book book);
 	
 }

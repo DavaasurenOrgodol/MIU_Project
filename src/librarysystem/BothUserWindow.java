@@ -5,9 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import business.UtilityClass;
+
 import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BothUserWindow extends JFrame  implements LibWindow{
 
@@ -35,8 +40,10 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 	 * Create the frame.
 	 */
 	public BothUserWindow() {
+		setSize(660, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		UtilityClass.centerFrameOnDesktop(this);
+		
 		contentPane = new JPanel();
 		setTitle("SuperUser Window");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -44,24 +51,54 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(213, 10, 10, 10);
-		contentPane.add(panel);
-		
 		JButton btnAddMemberButton = new JButton("Add Member");
-		btnAddMemberButton.setBounds(134, 32, 89, 23);
+		btnAddMemberButton.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addMember.png")));
+		btnAddMemberButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LibrarySystem.hideAllWindows();
+				AddLibraryMemberWindow.INSTANCE.init();
+				Util.centerFrameOnDesktop(AddLibraryMemberWindow.INSTANCE);
+				AddLibraryMemberWindow.INSTANCE.setVisible(true);
+			}
+		});
+		btnAddMemberButton.setBounds(317, 38, 156, 41);
 		contentPane.add(btnAddMemberButton);
 		
 		JButton btnAddBook = new JButton("Add Book");
-		btnAddBook.setBounds(134, 71, 89, 23);
+		btnAddBook.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addBook.png")));
+		btnAddBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LibrarySystem.hideAllWindows();
+				BookWindow.INSTANCE.init();
+				Util.centerFrameOnDesktop(BookWindow.INSTANCE);
+				BookWindow.INSTANCE.setVisible(true);
+			}
+		});
+		btnAddBook.setBounds(317, 133, 156, 41);
 		contentPane.add(btnAddBook);
 		
 		JButton btnCheckOutButton_2 = new JButton("Check Out");
-		btnCheckOutButton_2.setBounds(134, 171, 89, 23);
+		btnCheckOutButton_2.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCheckout.png")));
+		btnCheckOutButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnCheckOutButton_2.setBounds(317, 353, 156, 41);
 		contentPane.add(btnCheckOutButton_2);
 		
 		JButton btnAddCopyButton_3 = new JButton("Add Copy");
-		btnAddCopyButton_3.setBounds(134, 123, 89, 23);
+		btnAddCopyButton_3.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCopy.png")));
+		btnAddCopyButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LibrarySystem.hideAllWindows();
+				LookUpBookWindow.INSTANCE.init();
+				Util.centerFrameOnDesktop(LookUpBookWindow.INSTANCE);
+				LookUpBookWindow.INSTANCE.setVisible(true);
+
+			}
+		});
+		btnAddCopyButton_3.setBounds(317, 244, 156, 41);
 		contentPane.add(btnAddCopyButton_3);
 		
 		JLabel titleLabel = new JLabel("");
@@ -69,7 +106,8 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 		contentPane.add(titleLabel);
 		
 		JLabel jlabelLabel = new JLabel("");
-		jlabelLabel.setBounds(10, 11, 89, 214);
+		jlabelLabel.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/libraryAgain.jpg")));
+		jlabelLabel.setBounds(0, 11, 265, 452);
 		contentPane.add(jlabelLabel);
 	}
 

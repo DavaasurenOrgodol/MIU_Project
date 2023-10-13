@@ -13,6 +13,8 @@ import business.Book;
 import business.BookCopy;
 import business.BookException;
 import business.SystemController;
+import business.UtilityClass;
+import dataaccess.Auth;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -31,9 +33,9 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	private JPanel contentPane;
 	private JTextField iSBNNumberField;
 	private JTextArea detailsTextArea;
+	 private JSpinner spinner;
 	SystemController c=new SystemController();
 	private Book b;
-	private JTextField valuetextField;
 	
 
 	/**
@@ -56,8 +58,11 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	 * Create the frame.
 	 */
 	public LookUpBookWindow() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(400, 400, 550, 500);
+		setSize(660,500);
+		UtilityClass.centerFrameOnDesktop(this);
+		
 		contentPane = new JPanel();
 
 		contentPane.setBackground(new Color(226, 226, 226));
@@ -69,15 +74,15 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		
 		JLabel lookupLabel = new JLabel("LookUp Book");
 		lookupLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lookupLabel.setBounds(167, 12, 160, 36);
+		lookupLabel.setBounds(259, 12, 160, 36);
 		contentPane.add(lookupLabel);
 		
 		JLabel enterISBNLabel = new JLabel("EnterISBN:");
-		enterISBNLabel.setBounds(167, 59, 67, 14);
+		enterISBNLabel.setBounds(291, 59, 67, 14);
 		contentPane.add(enterISBNLabel);
 		
 		iSBNNumberField = new JTextField();
-		iSBNNumberField.setBounds(233, 56, 128, 20);
+		iSBNNumberField.setBounds(368, 59, 128, 20);
 		contentPane.add(iSBNNumberField);
 		iSBNNumberField.setColumns(10);
 		
@@ -95,7 +100,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
                 detailsTextArea.setText(details);
 			}
 		});
-		submitButton.setBounds(233, 84, 119, 45);
+		submitButton.setBounds(377, 101, 119, 45);
 		
 		contentPane.add(submitButton);
         detailsTextArea = new JTextArea();
@@ -103,7 +108,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
         detailsTextArea.setBackground(new Color(230, 230, 230));
         
         detailsTextArea.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        detailsTextArea.setBounds(156, 176, 347, 89);
+        detailsTextArea.setBounds(312, 185, 347, 89);
         detailsTextArea.setEditable(false); 
 
         contentPane.add(detailsTextArea);
@@ -113,18 +118,22 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 		backButton.setBounds(10, 11, 60, 23);
 		backButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
 			LookUpBookWindow.this.setVisible(false);
+			if(SystemController.currentAuth.equals(Auth.ADMIN))
+				AdminWindow.INSTANCE.setVisible(true);
+				else
+					BothUserWindow.INSTANCE.setVisible(true);
 		}});
 		contentPane.add(backButton);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(LookUpBookWindow.class.getResource("/librarysystem/library4.jpg")));
-		lblNewLabel.setBounds(-11, 48, 157, 415);
+		lblNewLabel.setIcon(new ImageIcon(LookUpBookWindow.class.getResource("/librarysystem/libraryAgain.jpg")));
+		lblNewLabel.setBounds(-20, 45, 269, 415);
 		contentPane.add(lblNewLabel);
 		
 		JButton addCopyButton = new JButton("Add Copy");
 		addCopyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				b.addCopy(Integer.parseInt(valuetextField.getText()));
+				b.addCopy((int) spinner.getValue());
 				try {
 					c.editBook(b);;
 					b=c.getLookUpDetails(iSBNNumberField.getText());
@@ -137,13 +146,14 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 				
 			}
 		});
-		addCopyButton.setBounds(299, 297, 89, 23);
+		addCopyButton.setBounds(417, 300, 98, 21);
 		contentPane.add(addCopyButton);
 		
-		valuetextField = new JTextField();
-		valuetextField.setBounds(256, 297, 33, 22);
-		contentPane.add(valuetextField);
-		valuetextField.setColumns(10);
+		 spinner = new JSpinner();
+		spinner.setBounds(377, 300, 30, 20);
+		contentPane.add(spinner);
+		
+		
 	}
 
 	@Override

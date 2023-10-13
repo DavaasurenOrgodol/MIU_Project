@@ -215,7 +215,8 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 					table.getModel().setValueAt(records.get(i).getBook().getMaxCheckoutLength(), row, 3);
 					table.getModel().setValueAt(records.get(i).getCheckoutDate(), row, 4);
 					table.getModel().setValueAt(records.get(i).getDueDate(), row, 5);
-				}catch(BookException ex) {
+				}
+				catch(BookException ex) {
 					ex.printStackTrace();
 				}
 				
