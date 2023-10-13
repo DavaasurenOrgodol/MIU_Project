@@ -30,6 +30,9 @@ final public class BookCopy implements Serializable {
 	public int getCopyNum() {
 		return copyNum;
 	}
+	public int setCopyNum( int n) {
+		return copyNum=n;
+	}
 	
 	public Book getBook() {
 		return book;

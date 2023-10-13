@@ -220,12 +220,17 @@ public class DataAccessFacade implements DataAccess {
 	}
 
 	@Override
-	public void updateBook(Book book) {
-		// TODO Auto-generated method stub
+	public void editSelectedBook(Book selectedbook) {
 		HashMap<String, Book> books = readBooksMap();
-		String isbn = book.getIsbn();
-		books.put(isbn, book);
-		saveToStorage(StorageType.BOOKS, books);
-	}	
+		String isbnToDelete = selectedbook.getIsbn();
+
+		if (books.containsKey(isbnToDelete)) {
+
+			books.remove(isbnToDelete);
+		}
+
+		saveToStorage(StorageType.BOOKS, selectedbook);
+
+	}
 
 }

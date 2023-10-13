@@ -205,7 +205,9 @@ public class LoginWindow extends JFrame implements LibWindow {
 					Util.centerFrameOnDesktop(LibrarionWindow.INSTANCE);
 					LibrarionWindow.INSTANCE.setVisible(true);
 				} else if (SystemController.currentAuth.equals(Auth.BOTH)) {
-
+					BothUserWindow.INSTANCE.init();
+					Util.centerFrameOnDesktop(BothUserWindow.INSTANCE);
+					BothUserWindow.INSTANCE.setVisible(true);
 				}
 
 			} catch (LoginException ex) {

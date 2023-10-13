@@ -103,6 +103,7 @@ public class SystemController implements ControllerInterface {
 		}
 		return -1;
 	}
+	
 
 	@Override
 	public void saveRecord(Checkout record) {
@@ -119,9 +120,9 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void updateBook(Book book) throws BookException {
+	public void editBook(Book book) throws BookException {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
-		da.updateBook(book);		
+		da.editSelectedBook(book);
 	}
 }
