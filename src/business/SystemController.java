@@ -125,4 +125,11 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		da.editSelectedBook(book);
 	}
+
+	@Override
+	public void updateBook(Book book) throws BookException {
+		// TODO Auto-generated method stub
+		DataAccess da = new DataAccessFacade();
+		da.updateBook(book);		
+	}
 }

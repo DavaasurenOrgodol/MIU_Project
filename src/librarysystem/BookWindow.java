@@ -24,6 +24,8 @@ import business.Book;
 import business.BookException;
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
@@ -198,7 +200,10 @@ public class BookWindow extends JFrame implements LibWindow {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
 			BookWindow.INSTANCE.setVisible(false);
-			AdminWindow.INSTANCE.setVisible(true);
+			if(SystemController.currentAuth.equals(Auth.ADMIN))
+				AdminWindow.INSTANCE.setVisible(true);
+				else
+					BothUserWindow.INSTANCE.setVisible(true);
 		});
 	}
 

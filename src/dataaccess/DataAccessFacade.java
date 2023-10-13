@@ -232,5 +232,14 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.BOOKS, selectedbook);
 
 	}
+	@Override
+	public void updateBook(Book book) {
+		// TODO Auto-generated method stub
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		books.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, books);
+	}	
+
 
 }
