@@ -10,7 +10,7 @@ public interface ControllerInterface {
 	public void saveBook(Book book) throws BookException;
 	public Book getInfo(String memId, String isbn) throws BookException;
 	public void updateBook(Book book) throws BookException;
-	public Book getLookUpDetails(String ISBN);
+	public Book getLookUpDetails(String isbn) throws BookException;
 	public void saveRecord(Checkout record);
 	public void editBook(Book book) throws BookException;
 	public int getAvailableCopyNum(BookCopy[] copies);

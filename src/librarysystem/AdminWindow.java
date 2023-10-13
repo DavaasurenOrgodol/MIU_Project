@@ -4,10 +4,14 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import business.UtilityClass;
 
 public class AdminWindow extends JFrame implements LibWindow {
 	public static final AdminWindow INSTANCE = new AdminWindow();
@@ -63,9 +67,10 @@ public class AdminWindow extends JFrame implements LibWindow {
 	 */
 	public AdminWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBounds(100, 100, 450, 300);
-		setSize(660,500);
+		// setBounds(100, 100, 450, 300);
+		setSize(660, 500);
 		setTitle("Admin Menu");
+		UtilityClass.centerFrameOnDesktop(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -73,24 +78,31 @@ public class AdminWindow extends JFrame implements LibWindow {
 		contentPane.setLayout(null);
 
 		JButton addNewMember = new JButton("Add Member");
-		addNewMember.setBounds(250, 52, 129, 23);
+		addNewMember.setBounds(342, 80, 162, 34);
 		addNewMember.addActionListener(new AddLibraryMemberWindowListener());
+		addNewMember.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addMember.png")));
 		contentPane.add(addNewMember);
 
 		JButton addNewBook = new JButton("Add Book");
-		addNewBook.setBounds(250, 86, 129, 23);
+		addNewBook.setBounds(342, 143, 162, 34);
 		addBookButtonListener(addNewBook);
+		addNewBook.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addBook.png")));
 		contentPane.add(addNewBook);
 
 		JButton lookUp = new JButton("Add Copies...");
-		lookUp.setBounds(250, 120, 129, 23);
+		lookUp.setBounds(342, 205, 162, 34);
 		lookUp.addActionListener(new LoopkUpBookWindowListener());
+		lookUp.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCopy.png")));
 		contentPane.add(lookUp);
 
 		JButton backButton = new JButton("<= Back");
-		backButton.setBounds(250, 154, 129, 23);
+		backButton.setBounds(507, 414, 95, 23);
 		addBackButtonListener(backButton);
 		contentPane.add(backButton);
+		JLabel jlabelLabel = new JLabel("");
+		jlabelLabel.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/libraryAgain.jpg")));
+		jlabelLabel.setBounds(0, 0, 265, 463);
+		contentPane.add(jlabelLabel);
 	}
 
 	@Override

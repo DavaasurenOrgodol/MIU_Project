@@ -14,6 +14,7 @@ import business.BookException;
 import business.Checkout;
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -36,7 +37,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	List<Checkout> records = new ArrayList<Checkout>();
 	List<String> rList = new ArrayList<String>();
 	private JTable table;
-	static int row =0;
+	static int row = 0;
 
 	/**
 	 * Launch the application.
@@ -104,57 +105,45 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 		backButton.setBounds(324, 427, 89, 23);
 		backButtonListener(backButton);
 		contentPane.add(backButton);
-		
+
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(517, 427, 89, 23);
 		contentPane.add(cancelButton);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(35, 120, 571, 296);
 		contentPane.add(scrollPane);
-		
+
 		table = new JTable();
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"Member ID", "ISBN", "Book Title", "Maximuim Checkout Length", "Checkout Date", "DueDate"
-			}
-		));
+				new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, },
+				new String[] { "Member ID", "ISBN", "Book Title", "Maximuim Checkout Length", "Checkout Date",
+						"DueDate" }));
 		scrollPane.setViewportView(table);
-		
+
 		JLabel titleLabel = new JLabel("Title:");
 		titleLabel.setBounds(289, 27, 46, 14);
 		contentPane.add(titleLabel);
-		
+
 		JLabel chkLenLabel = new JLabel("Max. checkout length:");
 		chkLenLabel.setBounds(288, 61, 125, 14);
 		contentPane.add(chkLenLabel);
-		
+
 		title = new JLabel("");
 		title.setVerticalAlignment(SwingConstants.TOP);
 		title.setBounds(333, 27, 273, 20);
 		contentPane.add(title);
-		
+
 		chkLen = new JLabel("");
 		chkLen.setBounds(430, 61, 46, 14);
 		contentPane.add(chkLen);
@@ -186,7 +175,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 				book.getNextAvailableCopy().changeAvailability();
 				title.setText(book.getTitle());
 				chkLen.setText(String.valueOf(book.getMaxCheckoutLength()));
-				Checkout recd = new Checkout(memId.getText(),book, LocalDate.now(),
+				Checkout recd = new Checkout(memId.getText(), book, LocalDate.now(),
 						LocalDate.now().plusDays(book.getMaxCheckoutLength()));
 				records.add(recd);
 				rList.add(book.getIsbn() + " " + book.getTitle() + " " + LocalDate.now().toString() + " "
@@ -205,7 +194,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	private void chkButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			ControllerInterface c = new SystemController();
-			for(int i = 0;i<records.size(); i++) {
+			for (int i = 0; i < records.size(); i++) {
 				try {
 					c.updateBook(records.get(i).getBook());
 					c.saveRecord(records.get(i));
@@ -215,11 +204,10 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 					table.getModel().setValueAt(records.get(i).getBook().getMaxCheckoutLength(), row, 3);
 					table.getModel().setValueAt(records.get(i).getCheckoutDate(), row, 4);
 					table.getModel().setValueAt(records.get(i).getDueDate(), row, 5);
-				}
-				catch(BookException ex) {
+				} catch (BookException ex) {
 					ex.printStackTrace();
 				}
-				
+
 			}
 			row++;
 			JOptionPane.showMessageDialog(this, "Successful.");
@@ -244,7 +232,11 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	private void backButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
-			LibrarySystem.INSTANCE.setVisible(true);
+			if (SystemController.currentAuth.equals(Auth.BOTH))
+				BothUserWindow.INSTANCE.setVisible(true);
+			else
+				LibrarySystem.INSTANCE.setVisible(true);
+
 		});
 	}
 }
