@@ -63,7 +63,8 @@ public class AdminWindow extends JFrame implements LibWindow {
 	 */
 	public AdminWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		//setBounds(100, 100, 450, 300);
+		setSize(660,500);
 		setTitle("Admin Menu");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,23 +72,23 @@ public class AdminWindow extends JFrame implements LibWindow {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton addNewMember = new JButton("Add New Member");
-		addNewMember.setBounds(40, 52, 117, 23);
+		JButton addNewMember = new JButton("Add Member");
+		addNewMember.setBounds(250, 52, 129, 23);
 		addNewMember.addActionListener(new AddLibraryMemberWindowListener());
 		contentPane.add(addNewMember);
 
-		JButton addNewBook = new JButton("Add New Book");
-		addNewBook.setBounds(167, 52, 110, 23);
+		JButton addNewBook = new JButton("Add Book");
+		addNewBook.setBounds(250, 86, 129, 23);
 		addBookButtonListener(addNewBook);
 		contentPane.add(addNewBook);
 
-		JButton lookUp = new JButton("Lookup");
-		lookUp.setBounds(287, 52, 89, 23);
+		JButton lookUp = new JButton("Add Copies...");
+		lookUp.setBounds(250, 120, 129, 23);
 		lookUp.addActionListener(new LoopkUpBookWindowListener());
 		contentPane.add(lookUp);
 
-		JButton backButton = new JButton("<= Back to Main");
-		backButton.setBounds(269, 197, 117, 23);
+		JButton backButton = new JButton("<= Back");
+		backButton.setBounds(250, 154, 129, 23);
 		addBackButtonListener(backButton);
 		contentPane.add(backButton);
 	}
