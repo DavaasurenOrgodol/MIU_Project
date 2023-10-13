@@ -60,7 +60,7 @@ public class SystemController implements ControllerInterface {
 		if (book.getIsbn().equals("")) {
 			throw new BookException("ISBN must be filled.");
 		}
-		if (book.getNumCopies() < 0 ) {
+		if (book.getNumCopies() < 0) {
 			throw new BookException("Number of sopies must be greater than 0.");
 		}
 		if (book.getMaxCheckoutLength() <= 0) {
@@ -70,22 +70,38 @@ public class SystemController implements ControllerInterface {
 			throw new BookException("Book title must be filled.");
 		}
 		if (map.containsKey(book.getIsbn())) {
-			throw new BookException("ISBN must be unique.");
+			throw new BookException("Duplicated ISBN.");
 		}
 		da.saveNewBook(book);
 	}
 
 	@Override
-	public Book getInfo(String memId, String isbn) {
+	public Book getInfo(String memId, String isbn) throws BookException {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
 		if (da.checkLibraryMemberById(memId)) {
 			Book book = da.checkBookByISBN(isbn);
 			if (book != null) {
+				if (book.getNextAvailableCopy() == null) {
+					throw new BookException("Did not found an available copy.");
+				}
 				return book;
+			} else {
+				throw new BookException("Book information did't found.");
+			}
+		} else {
+			throw new BookException("Member Id didn't found.");
+		}
+	}
+
+	@Override
+	public int getAvailableCopyNum(BookCopy[] copies) {
+		for (BookCopy copy : copies) {
+			if (copy.isAvailable()) {
+				return copy.getCopyNum();
 			}
 		}
-		return null;
+		return -1;
 	}
 	
 
@@ -95,10 +111,11 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		da.saveCheckoutRecord(record);
 	}
+
 	@Override
 	public Book getLookUpDetails(String ISBN) {
 		DataAccess da = new DataAccessFacade();
-		Book b=da.checkBookByISBN(ISBN);
+		Book b = da.checkBookByISBN(ISBN);
 		return b;
 	}
 
@@ -107,6 +124,5 @@ public class SystemController implements ControllerInterface {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
 		da.editSelectedBook(book);
-		
 	}
 }

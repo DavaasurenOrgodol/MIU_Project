@@ -67,7 +67,7 @@ public class TestData {
 
 	// create checkout record data
 	public void recordData() {
-		Checkout record = new Checkout(
+		Checkout record = new Checkout("1002",
 				new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
 				LocalDate.now(), LocalDate.now());
 		allRecords.add(record);
@@ -123,7 +123,7 @@ public class TestData {
 	@SuppressWarnings("serial")
 	List<Checkout> allRecords = new ArrayList<Checkout>() {
 		{
-			add(new Checkout(
+			add(new Checkout("1001",
 					new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
 					LocalDate.now(), LocalDate.now()));
 		}

@@ -48,7 +48,6 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
 
-
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Book> readBooksMap() {
 		// Returns a Map with name/value pairs being
@@ -215,24 +214,23 @@ public class DataAccessFacade implements DataAccess {
 	public void saveCheckoutRecord(Checkout checkoutRecord) {
 		// * TODO Auto-generated method stub
 		HashMap<String, Checkout> records = readRecordsMap();
-		String isbn = checkoutRecord.getBook().getIsbn();
-		records.put(isbn, checkoutRecord);
+		records.put(checkoutRecord.getMemId(), checkoutRecord);
 		saveToStorage(StorageType.CHECKOUT, records);
 
 	}
+
 	@Override
 	public void editSelectedBook(Book selectedbook) {
-HashMap<String, Book> books = readBooksMap();
-		String isbnToDelete=selectedbook.getIsbn();
+		HashMap<String, Book> books = readBooksMap();
+		String isbnToDelete = selectedbook.getIsbn();
 
-	    
-	    if (books.containsKey(isbnToDelete)) {
-	      
-	        books.remove(isbnToDelete);
- } 
-	       
-	    saveToStorage(StorageType.BOOKS, selectedbook);
-	    
+		if (books.containsKey(isbnToDelete)) {
+
+			books.remove(isbnToDelete);
+		}
+
+		saveToStorage(StorageType.BOOKS, selectedbook);
+
 	}
 
 }
