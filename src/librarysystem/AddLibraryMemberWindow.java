@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import business.Address;
+import business.BookException;
 import business.LibraryMember;
 import business.LibrarySystemException;
 import business.RandomNumber;
@@ -136,76 +137,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 		submitButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		submitButton.setIcon(null);
 		submitButton.setForeground(new Color(102, 153, 0));
-		submitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String memberId = memberID.getText();
-				String fName = firstName.getText();
-				String lName = lastName.getText();
-				String phone = telephone.getText();
-				String cityVal = city.getText();
-				String zipVal = zip.getText();
-				String stateVal = state.getText();
-				String streetVal = street.getText();
-				StringBuilder errorMessage = new StringBuilder();
-
-				if (memberId.isEmpty()) {
-					errorMessage.append("Member ID is required.\n");
-				}
-
-				if (fName.isEmpty()) {
-					errorMessage.append("First Name is required.\n");
-				}
-
-				if (lName.isEmpty()) {
-					errorMessage.append("Last Name is required.\n");
-				}
-
-				if (phone.isEmpty()) {
-					errorMessage.append("Phone is required.\n");
-				}
-
-				if (cityVal.isEmpty()) {
-					errorMessage.append("City is required.\n");
-				}
-
-				if (zipVal.isEmpty()) {
-					errorMessage.append("ZIP is required.\n");
-				}
-
-				if (stateVal.isEmpty()) {
-					errorMessage.append("State is required.\n");
-				}
-				if (errorMessage.length() > 0) {
-					// Display the accumulated error messages
-					JOptionPane.showMessageDialog(AddLibraryMemberWindow.this, errorMessage.toString());
-				} else {
-					Address a = new Address(streetVal, cityVal, stateVal, zipVal);
-					LibraryMember lb = new LibraryMember(memberId, fName, lName, phone, a);
-					SystemController controller = new SystemController();
-					try {
-						controller.addMember(lb);
-						JOptionPane.showMessageDialog(AddLibraryMemberWindow.this,
-								"Member Successfullt created:\n" + "Member ID: " + lb.getMemberId() + "\n" + "Name: "
-										+ lb.getFirstName() + " " + lb.getLastName() + "\n" + "Phone: " + lb.getTelephone()
-										+ "\n" + "Address: " + lb.getAddress());
-						 memberID.setText(Integer.toString(RandomNumber.generateRandomFourDigitNumber()));
-						 firstName.setText("");
-		                 lastName.setText("");
-		                 telephone.setText("");
-		                 city.setText("");
-		                 zip.setText("");
-		                 state.setText("");
-		                 street.setText("");
-					} catch (LibrarySystemException ex) {
-						ex.printStackTrace();
-						JOptionPane.showMessageDialog(AddLibraryMemberWindow.this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-					}
-
-					
-				}
-				
-			}
-		});
+		submitButtonListener(submitButton);
 		submitButton.setBounds(248, 230, 91, 31);
 		mainPane.add(submitButton);
 
@@ -246,15 +178,7 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		backButton.setForeground(new Color(128, 64, 64));
 		backButton.setBounds(0, 0, 62, 25);
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AddLibraryMemberWindow.this.setVisible(false);
-				if(SystemController.currentAuth.equals(Auth.ADMIN))
-				AdminWindow.INSTANCE.setVisible(true);
-				else
-					BothUserWindow.INSTANCE.setVisible(true);
-			}
-		});
+		addBackButtonListener(backButton);
 		mainPane.add(backButton);
 
 		pictureLabel = new JLabel("");
@@ -289,5 +213,50 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 	public void init() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void submitButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+			String memberId = memberID.getText();
+			String fName = firstName.getText();
+			String lName = lastName.getText();
+			String phone = telephone.getText();
+			String cityVal = city.getText();
+			String zipVal = zip.getText();
+			String stateVal = state.getText();
+			String streetVal = street.getText();
+			Address a = new Address(streetVal, cityVal, stateVal, zipVal);
+			LibraryMember lb = new LibraryMember(memberId, fName, lName, phone, a);
+			SystemController controller = new SystemController();
+			try {
+				controller.addMember(lb);
+				JOptionPane.showMessageDialog(AddLibraryMemberWindow.this,
+						"Member Successfullt created:\n" + "Member ID: " + lb.getMemberId() + "\n" + "Name: "
+								+ lb.getFirstName() + " " + lb.getLastName() + "\n" + "Phone: " + lb.getTelephone()
+								+ "\n" + "Address: " + lb.getAddress());
+				memberID.setText(Integer.toString(RandomNumber.generateRandomFourDigitNumber()));
+				firstName.setText("");
+				lastName.setText("");
+				telephone.setText("");
+				city.setText("");
+				zip.setText("");
+				state.setText("");
+				street.setText("");
+			} catch (LibrarySystemException ex) {
+				JOptionPane.showMessageDialog(AddLibraryMemberWindow.this, "Error: " + ex.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		});
+	}
+
+	private void addBackButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+			AddLibraryMemberWindow.this.setVisible(false);
+			if (SystemController.currentAuth.equals(Auth.ADMIN))
+				AdminWindow.INSTANCE.setVisible(true);
+			else
+				BothUserWindow.INSTANCE.setVisible(true);
+		});
 	}
 }

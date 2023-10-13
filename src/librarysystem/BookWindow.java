@@ -30,6 +30,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import javax.swing.JRadioButton;
+import java.awt.Color;
 
 public class BookWindow extends JFrame implements LibWindow {
 	public static final BookWindow INSTANCE = new BookWindow();
@@ -39,9 +41,9 @@ public class BookWindow extends JFrame implements LibWindow {
 	private JTextField isbn;
 	static JTable table;
 	private JLabel isbnLabel;
-	private JSpinner checkoutLen;
-	private JSpinner numOfCopies;
 	private JTextArea title;
+	private JRadioButton sevRadioButton;
+	private JRadioButton twtyRadioButton;
 	static List<Author> authors = new ArrayList<>();
 	private boolean isInitialized = false;
 
@@ -66,8 +68,8 @@ public class BookWindow extends JFrame implements LibWindow {
 	 */
 	public BookWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBounds(100, 100, 500, 400);
-		setSize(660,500);
+		// setBounds(100, 100, 500, 400);
+		setSize(660, 500);
 		setTitle("Add Book");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,19 +78,15 @@ public class BookWindow extends JFrame implements LibWindow {
 		contentPane.setLayout(null);
 
 		JLabel isbnLabel = new JLabel("ISBN:");
-		isbnLabel.setBounds(43, 22, 46, 14);
+		isbnLabel.setBounds(54, 22, 46, 14);
 		contentPane.add(isbnLabel);
 
 		JLabel titleLabel = new JLabel("Title:");
-		titleLabel.setBounds(43, 116, 46, 14);
+		titleLabel.setBounds(54, 116, 46, 14);
 		contentPane.add(titleLabel);
 
-		JLabel numOfCopiesLabel = new JLabel("Number of copies:");
-		numOfCopiesLabel.setBounds(43, 50, 108, 14);
-		contentPane.add(numOfCopiesLabel);
-
 		JLabel checkoutLenLabel = new JLabel("Maximuim checkout length:");
-		checkoutLenLabel.setBounds(43, 81, 171, 14);
+		checkoutLenLabel.setBounds(43, 55, 171, 14);
 		contentPane.add(checkoutLenLabel);
 
 		JLabel authorsLabel = new JLabel("Authors:");
@@ -121,61 +119,44 @@ public class BookWindow extends JFrame implements LibWindow {
 		table.setFillsViewportHeight(true);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"First Name", "Last Name", "Bio", "Telephone", "City", "Street", "State", "Zip Code"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, Object.class, Object.class, String.class, String.class, String.class, Long.class
-			};
+		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }, },
+				new String[] { "First Name", "Last Name", "Bio", "Telephone", "City", "Street", "State", "Zip Code" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, Object.class, Object.class, String.class,
+					String.class, String.class, Long.class };
+
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
 		table.setColumnSelectionAllowed(true);
-		table.getModel().addTableModelListener(new TableModelListener() {
-
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-				/*
-				 * AuthorWindow.row = table.getSelectedRow();
-				 * System.out.println(table.getSelectedRow()); AuthorWindow.INSTANCE.init();
-				 * Util.centerFrameOnDesktop(AuthorWindow.INSTANCE);
-				 * AuthorWindow.INSTANCE.setVisible(true);
-				 */
-			}
-
-		});
 		scrollPane.setViewportView(table);
 
-		numOfCopies = new JSpinner();
-		numOfCopies.setBounds(207, 50, 46, 20);
-		contentPane.add(numOfCopies);
-
-		checkoutLen = new JSpinner();
-		checkoutLen.setBounds(207, 78, 46, 20);
-		contentPane.add(checkoutLen);
-		
 		title = new JTextArea();
 		title.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		title.setBounds(207, 116, 195, 54);
 		contentPane.add(title);
-
+		sevRadioButton = new JRadioButton("7");
+		sevRadioButton.setBounds(207, 51, 109, 23);
+		contentPane.add(sevRadioButton);
+		twtyRadioButton = new JRadioButton("21");
+		twtyRadioButton.setSelected(true);
+		twtyRadioButton.setBounds(207, 76, 109, 23);
+		contentPane.add(twtyRadioButton);
+		JLabel lblNewLabel = new JLabel("*");
+		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setBounds(43, 22, 15, 14);
+		contentPane.add(lblNewLabel);
+		JLabel lblNewLabel_1 = new JLabel("*");
+		lblNewLabel_1.setForeground(Color.RED);
+		lblNewLabel_1.setBounds(43, 116, 6, 14);
+		contentPane.add(lblNewLabel_1);
 	}
 
 	@Override
@@ -198,12 +179,13 @@ public class BookWindow extends JFrame implements LibWindow {
 
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
+			clear();
 			LibrarySystem.hideAllWindows();
 			BookWindow.INSTANCE.setVisible(false);
-			if(SystemController.currentAuth.equals(Auth.ADMIN))
+			if (SystemController.currentAuth.equals(Auth.ADMIN))
 				AdminWindow.INSTANCE.setVisible(true);
-				else
-					BothUserWindow.INSTANCE.setVisible(true);
+			else
+				BothUserWindow.INSTANCE.setVisible(true);
 		});
 	}
 
@@ -212,10 +194,16 @@ public class BookWindow extends JFrame implements LibWindow {
 			try {
 				ControllerInterface c = new SystemController();
 				addAuthors(table);
-				Book book = new Book(isbn.getText(), title.getText(),
-						Integer.valueOf(checkoutLen.getModel().getValue().toString()), authors);
+				int max;
+				if (sevRadioButton.isSelected()) {
+					max = 7;
+				} else {
+					max = 21;
+				}
+				Book book = new Book(isbn.getText(), title.getText(), max, authors);
 				c.saveBook(book);
 				JOptionPane.showMessageDialog(this, "Successfully added.");
+				clear();
 				LibrarySystem.hideAllWindows();
 				BookWindow.INSTANCE.setVisible(false);
 				AdminWindow.INSTANCE.setVisible(true);
@@ -268,6 +256,17 @@ public class BookWindow extends JFrame implements LibWindow {
 				}
 			}
 
+		}
+	}
+	public void clear() {
+		isbn.setText("");
+		title.setText("");
+		twtyRadioButton.setSelected(true);
+		sevRadioButton.setSelected(false);
+		for (int i = 0; i < table.getRowCount(); i++) {
+			for (int j = 0; j < table.getColumnCount(); j++) {
+				table.getModel().setValueAt(" ", i, j);
+			}
 		}
 	}
 }

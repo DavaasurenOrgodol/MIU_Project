@@ -45,9 +45,22 @@ public class SystemController implements ControllerInterface {
 	@Override
 	public void addMember(LibraryMember l) throws LibrarySystemException {
 		DataAccess da = new DataAccessFacade();
-		if (da.checkMemberPresentOrNot(l)) {
+		if (l.getMemberId().isEmpty())
+			throw new LibrarySystemException("Member ID is required.");
+		if (da.checkMemberPresentOrNot(l))
 			throw new LibrarySystemException("Duplicate Member ID");
-		}
+		if (l.getFirstName().isEmpty())
+			throw new LibrarySystemException("First Name is required.");
+		if (l.getLastName().isEmpty())
+			throw new LibrarySystemException("Last Name is required.");
+		if (l.getTelephone().isEmpty())
+			throw new LibrarySystemException("Phone is required.");
+		if (l.getAddress().getCity().isEmpty())
+			throw new LibrarySystemException("City is required.");
+		if (l.getAddress().getZip().isEmpty())
+			throw new LibrarySystemException("ZIP is required.");
+		if (l.getAddress().getState().isEmpty())
+			throw new LibrarySystemException("State is required.");
 		da.saveNewMember(l);
 		return;
 	}
@@ -103,7 +116,6 @@ public class SystemController implements ControllerInterface {
 		}
 		return -1;
 	}
-	
 
 	@Override
 	public void saveRecord(Checkout record) {
@@ -113,9 +125,11 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public Book getLookUpDetails(String ISBN) {
+	public Book getLookUpDetails(String isbn) throws BookException {
 		DataAccess da = new DataAccessFacade();
-		Book b = da.checkBookByISBN(ISBN);
+		if (da.checkBookByISBN(isbn) == null)
+			throw new BookException("This book didn't found.");
+		Book b = da.checkBookByISBN(isbn);
 		return b;
 	}
 
@@ -130,6 +144,6 @@ public class SystemController implements ControllerInterface {
 	public void updateBook(Book book) throws BookException {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
-		da.updateBook(book);		
+		da.updateBook(book);
 	}
 }

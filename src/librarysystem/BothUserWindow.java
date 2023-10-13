@@ -81,7 +81,10 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 		btnCheckOutButton_2.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCheckout.png")));
 		btnCheckOutButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				LibrarySystem.hideAllWindows();
+				LibrarionWindow.INSTANCE.init();
+				Util.centerFrameOnDesktop(LibrarionWindow.INSTANCE);
+				LibrarionWindow.INSTANCE.setVisible(true);
 			}
 		});
 		btnCheckOutButton_2.setBounds(317, 353, 156, 41);

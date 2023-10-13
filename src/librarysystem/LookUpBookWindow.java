@@ -31,6 +31,7 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 
 	private static final long serialVersionUID = 1L;
 	public static final LookUpBookWindow INSTANCE = new LookUpBookWindow();
+	private boolean isInitialized = false;
 	private JPanel contentPane;
 	private JTextField isbnNumberField;
 	private JTextArea detailsTextArea;
@@ -154,10 +155,16 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 
 	private void submitButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			b = c.getLookUpDetails(isbnNumberField.getText());
-			String details = "\tBook Details\n\n Title: " + b.getTitle() + "\n" + " Number of Copies:"
-					+ b.getNumCopies();
-			detailsTextArea.setText(details);
+			try {
+				b = c.getLookUpDetails(isbnNumberField.getText());
+				String details = "\tBook Details\n\n Title: " + b.getTitle() + "\n" + " Number of Copies:"
+						+ b.getNumCopies();
+				detailsTextArea.setText(details);
+			} catch (BookException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+
 		});
 	}
 
@@ -170,12 +177,12 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	@Override
 	public boolean isInitialized() {
 		// TODO Auto-generated method stub
-		return false;
+		return isInitialized;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
 		// TODO Auto-generated method stub
-
+		isInitialized = val;
 	}
 }
