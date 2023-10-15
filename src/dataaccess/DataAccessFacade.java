@@ -98,7 +98,7 @@ public class DataAccessFacade implements DataAccess {
 
 	static void loadRecordMap(List<Checkout> recordList) {
 		HashMap<String, Checkout> records = new HashMap<String, Checkout>();
-		recordList.forEach(record -> records.put(record.getBook().getIsbn(), record));
+		recordList.forEach(record -> records.put(record.getMemId(), record));
 		saveToStorage(StorageType.CHECKOUT, records);
 	}
 
@@ -202,19 +202,15 @@ public class DataAccessFacade implements DataAccess {
 	public Book checkBookByISBN(String isbn) {
 		// TODO Auto-generated method stub
 		HashMap<String, Book> books = readBooksMap();
-		for (Book book : books.values()) {
-			if (book.getIsbn().equals(isbn)) {
-				return book;
-			}
-		}
-		return null;
+		return books.get(isbn);
 	}
 
 	@Override
 	public void saveCheckoutRecord(Checkout checkoutRecord) {
 		// * TODO Auto-generated method stub
 		HashMap<String, Checkout> records = readRecordsMap();
-		records.put(checkoutRecord.getMemId(), checkoutRecord);
+		String str = checkoutRecord.getMemId()+checkoutRecord.getCopy().getBook().getIsbn()+checkoutRecord.getCopyNum();
+		records.put(str, checkoutRecord);
 		saveToStorage(StorageType.CHECKOUT, records);
 
 	}
@@ -222,9 +218,8 @@ public class DataAccessFacade implements DataAccess {
 	@Override
 	public void editSelectedBook(Book selectedbook) {
 		HashMap<String, Book> books = readBooksMap();
-		books.put(selectedbook.getIsbn(), selectedbook);
+		books.replace(selectedbook.getIsbn(), selectedbook);
 		saveToStorage(StorageType.BOOKS, books);
-
 	}
 
 	@Override

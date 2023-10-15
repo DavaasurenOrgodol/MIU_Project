@@ -14,4 +14,7 @@ public interface ControllerInterface {
 	public void saveRecord(Checkout record);
 	public void editBook(Book book) throws BookException;
 	public int getAvailableCopyNum(BookCopy[] copies);
+	public void print(String memId);
+	public List<Checkout> checkOverdue(String isbn);
+	
 }

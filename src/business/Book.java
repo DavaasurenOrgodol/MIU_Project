@@ -52,10 +52,9 @@ final public class Book implements Serializable {
 		copies = newArr;
 	}
 	public void addCopy(int num) {
-		BookCopy[] newArr = new BookCopy[copies.length + num];
-		System.arraycopy(copies, 0, newArr, 0, copies.length);
-		newArr[copies.length] = new BookCopy(this, copies.length+num, true);
-		copies = newArr;
+		for(int i = 0; i<num; i++) {
+			addCopy();
+		}
 	}
 	
 	
@@ -100,7 +99,7 @@ final public class Book implements Serializable {
 		return isbn;
 	}
 	
-	public BookCopy getNextAvailableCopy() {	
+	public BookCopy getNextAvailableCopy() {
 		Optional<BookCopy> optional 
 			= Arrays.stream(copies)
 			        .filter(x -> x.isAvailable()).findFirst();
