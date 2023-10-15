@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,22 +46,24 @@ public class SystemController implements ControllerInterface {
 	@Override
 	public void addMember(LibraryMember l) throws LibrarySystemException {
 		DataAccess da = new DataAccessFacade();
-		if (l.getMemberId().isEmpty())
+		if (l.getMemberId().equals(""))
 			throw new LibrarySystemException("Member ID is required.");
 		if (da.checkMemberPresentOrNot(l))
 			throw new LibrarySystemException("Duplicate Member ID");
-		if (l.getFirstName().isEmpty())
+		if (l.getFirstName().equals(""))
 			throw new LibrarySystemException("First Name is required.");
-		if (l.getLastName().isEmpty())
+		if (l.getLastName().equals(""))
 			throw new LibrarySystemException("Last Name is required.");
-		if (l.getTelephone().isEmpty())
+		if (l.getTelephone().equals(""))
 			throw new LibrarySystemException("Phone is required.");
-		if (l.getAddress().getCity().isEmpty())
+		if (l.getAddress().getCity().equals(""))
 			throw new LibrarySystemException("City is required.");
-		if (l.getAddress().getZip().isEmpty())
+		if (l.getAddress().getZip().equals(""))
 			throw new LibrarySystemException("ZIP is required.");
-		if (l.getAddress().getState().isEmpty())
+		if (l.getAddress().getState().equals(""))
 			throw new LibrarySystemException("State is required.");
+		if (l.getAddress().getStreet().equals(""))
+			throw new LibrarySystemException("Street is required.");
 		da.saveNewMember(l);
 		return;
 	}
@@ -86,6 +89,7 @@ public class SystemController implements ControllerInterface {
 			throw new BookException("Duplicated ISBN.");
 		}
 		da.saveNewBook(book);
+		return;
 	}
 
 	@Override
@@ -145,5 +149,34 @@ public class SystemController implements ControllerInterface {
 		// TODO Auto-generated method stub
 		DataAccess da = new DataAccessFacade();
 		da.updateBook(book);
+	}
+
+	public void print(String memId) {
+		DataAccess da = new DataAccessFacade();
+		String header = String.format("%5s %8s %13s %25s %10s %17s %15s", "ID", "ISBN","Title", "Max. Checkout Len",
+				"Copy Num", "Checkout Date", "Due Date");
+		System.out.println(header);
+		HashMap<String, Checkout> records = da.readRecordsMap();
+		int i=1;
+		for(Checkout c :records.values()) {
+			if (c.getMemId().substring(0, 4).equals(memId)) {
+				System.out.println(i + " " +c);
+				i++;
+			}
+				
+		}
+	}
+	public List<Checkout> checkOverdue(String isbn) {
+		DataAccess da = new DataAccessFacade();
+		List<Checkout> recordList = new ArrayList<Checkout>();
+		HashMap<String, Checkout> records = da.readRecordsMap();
+		for(Checkout c :records.values()) {
+			if (c.getCopy().getBook().getIsbn().equals(isbn) && !c.getCopy().isAvailable()
+					&& c.getDueDate().compareTo(LocalDate.now()) < 0 ) {
+				recordList.add(c);
+			}
+				
+		}
+		return recordList;
 	}
 }

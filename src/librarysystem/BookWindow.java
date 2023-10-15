@@ -86,7 +86,7 @@ public class BookWindow extends JFrame implements LibWindow {
 		contentPane.add(titleLabel);
 
 		JLabel checkoutLenLabel = new JLabel("Maximuim checkout length:");
-		checkoutLenLabel.setBounds(43, 55, 171, 14);
+		checkoutLenLabel.setBounds(43, 60, 171, 14);
 		contentPane.add(checkoutLenLabel);
 
 		JLabel authorsLabel = new JLabel("Authors:");
@@ -94,6 +94,7 @@ public class BookWindow extends JFrame implements LibWindow {
 		contentPane.add(authorsLabel);
 
 		isbn = new JTextField();
+		isbnLabel.setLabelFor(isbn);
 		isbn.setBounds(207, 22, 195, 20);
 		contentPane.add(isbn);
 		isbn.setColumns(10);
@@ -112,6 +113,7 @@ public class BookWindow extends JFrame implements LibWindow {
 		String[][] data = { { "Kundan Kumar Jha", "4031", "CSE" }, { "Anand Jha", "6014", "IT" } };
 
 		JScrollPane scrollPane = new JScrollPane();
+		authorsLabel.setLabelFor(scrollPane);
 		scrollPane.setBounds(43, 212, 565, 190);
 		contentPane.add(scrollPane);
 		table = new JTable();
@@ -138,6 +140,7 @@ public class BookWindow extends JFrame implements LibWindow {
 		scrollPane.setViewportView(table);
 
 		title = new JTextArea();
+		titleLabel.setLabelFor(title);
 		title.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		title.setBounds(207, 116, 195, 54);
 		contentPane.add(title);
@@ -145,6 +148,7 @@ public class BookWindow extends JFrame implements LibWindow {
 		sevRadioButton.setBounds(207, 51, 109, 23);
 		contentPane.add(sevRadioButton);
 		twtyRadioButton = new JRadioButton("21");
+		checkoutLenLabel.setLabelFor(twtyRadioButton);
 		twtyRadioButton.setSelected(true);
 		twtyRadioButton.setBounds(207, 76, 109, 23);
 		contentPane.add(twtyRadioButton);

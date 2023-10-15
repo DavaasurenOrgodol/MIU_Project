@@ -78,21 +78,21 @@ public class AdminWindow extends JFrame implements LibWindow {
 		contentPane.setLayout(null);
 
 		JButton addNewMember = new JButton("Add Member");
-		addNewMember.setBounds(342, 80, 162, 34);
+		addNewMember.setBounds(342, 80, 156, 41);
 		addNewMember.addActionListener(new AddLibraryMemberWindowListener());
-		addNewMember.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addMember.png")));
+		addNewMember.setIcon(new ImageIcon(AdminWindow.class.getResource("/librarysystem/addMember.png")));
 		contentPane.add(addNewMember);
 
 		JButton addNewBook = new JButton("Add Book");
-		addNewBook.setBounds(342, 143, 162, 34);
+		addNewBook.setBounds(342, 143, 156, 41);
 		addBookButtonListener(addNewBook);
-		addNewBook.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addBook.png")));
+		addNewBook.setIcon(new ImageIcon(AdminWindow.class.getResource("/librarysystem/addBook.png")));
 		contentPane.add(addNewBook);
 
 		JButton lookUp = new JButton("Add Copies...");
-		lookUp.setBounds(342, 205, 162, 34);
+		lookUp.setBounds(342, 205, 156, 41);
 		lookUp.addActionListener(new LoopkUpBookWindowListener());
-		lookUp.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCopy.png")));
+		lookUp.setIcon(new ImageIcon(AdminWindow.class.getResource("/librarysystem/addCopy.png")));
 		contentPane.add(lookUp);
 
 		JButton backButton = new JButton("<= Back");
@@ -100,7 +100,7 @@ public class AdminWindow extends JFrame implements LibWindow {
 		addBackButtonListener(backButton);
 		contentPane.add(backButton);
 		JLabel jlabelLabel = new JLabel("");
-		jlabelLabel.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/libraryAgain.jpg")));
+		jlabelLabel.setIcon(new ImageIcon(AdminWindow.class.getResource("/librarysystem/libraryAgain.jpg")));
 		jlabelLabel.setBounds(0, 0, 265, 463);
 		contentPane.add(jlabelLabel);
 	}
@@ -149,5 +149,5 @@ public class AdminWindow extends JFrame implements LibWindow {
 			LibrarySystem.INSTANCE.setVisible(true);
 		});
 	}
-
+	
 }

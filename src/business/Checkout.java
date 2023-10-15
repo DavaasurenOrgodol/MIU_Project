@@ -3,38 +3,53 @@ package business;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-final public class Checkout implements Serializable{
+final public class Checkout implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Book book;
+	private BookCopy copy;
 	private String memId;
 	private LocalDate checkoutDate;
 	private LocalDate dueDate;
-	public Checkout(String memId,Book book,LocalDate checkoutDate, LocalDate dueDate){
+	private int copyNum;
+
+	public Checkout(String memId, BookCopy copy, LocalDate checkoutDate, LocalDate dueDate, int copyNum) {
 		this.memId = memId;
-		this.book = book;
+		this.copy = copy;
 		this.checkoutDate = checkoutDate;
 		this.dueDate = dueDate;
+		this.copyNum = copyNum;
 	}
-	public Book getBook() {
-		return book;
+
+	public BookCopy getCopy() {
+		return copy;
 	}
+
 	public LocalDate getCheckoutDate() {
 		return checkoutDate;
 	}
+
 	public LocalDate getDueDate() {
 		return dueDate;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public int getCopyNum() {
+		return copyNum;
+	}
+
 	public String getMemId() {
 		return memId;
 	}
+
 	@Override
 	public String toString() {
-		return book.toString()+" Checkout Date:"+checkoutDate+" DueDate:"+dueDate;
+		String s = String.format("%6s %9s %15s %16s %10s %18s %18s", memId, this.copy.getBook().getIsbn(),this.copy.getBook().getTitle(), this.copy.getBook().getMaxCheckoutLength(),
+				copyNum, checkoutDate, dueDate);
+		return s;
 	}
 }

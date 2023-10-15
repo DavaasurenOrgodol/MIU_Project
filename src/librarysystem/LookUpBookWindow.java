@@ -12,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 import business.Book;
 import business.BookCopy;
 import business.BookException;
-import business.SystemController;
 import business.UtilityClass;
 import dataaccess.Auth;
 
@@ -26,6 +25,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
+import business.ControllerInterface;
+import business.SystemController;
 
 public class LookUpBookWindow extends JFrame implements LibWindow {
 
@@ -36,8 +37,6 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	private JTextField isbnNumberField;
 	private JTextArea detailsTextArea;
 	private JSpinner spinner;
-	SystemController c = new SystemController();
-	private Book b;
 
 	/**
 	 * Launch the application.
@@ -138,10 +137,11 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 
 	private void addCopyButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			b.addCopy((int) spinner.getValue());
 			try {
-				c.editBook(b);
-				b = c.getLookUpDetails(isbnNumberField.getText());
+				ControllerInterface c = new SystemController();
+				Book book = c.getLookUpDetails(isbnNumberField.getText());
+				book.addCopy((int) spinner.getValue());
+				c.editBook(book);
 				JOptionPane.showMessageDialog(this, "Successfully added.");
 				isbnNumberField.setText("");
 				detailsTextArea.setText("");
@@ -156,12 +156,14 @@ public class LookUpBookWindow extends JFrame implements LibWindow {
 	private void submitButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			try {
-				b = c.getLookUpDetails(isbnNumberField.getText());
-				String details = "\tBook Details\n\n Title: " + b.getTitle() + "\n" + " Number of Copies:"
-						+ b.getNumCopies();
+				ControllerInterface c = new SystemController();
+				Book book = c.getLookUpDetails(isbnNumberField.getText());
+				String details = "\tBook Details\n\n Title: " + book.getTitle() + "\n" + " Number of Copies:"
+						+ book.getNumCopies();
 				detailsTextArea.setText(details);
-			} catch (BookException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
 				JOptionPane.showMessageDialog(this, e.getMessage());
 			}
 

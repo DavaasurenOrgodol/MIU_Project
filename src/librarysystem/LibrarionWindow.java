@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import business.Book;
+import business.BookCopy;
 import business.BookException;
 import business.Checkout;
 import business.ControllerInterface;
@@ -34,10 +35,15 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 	private JTextField isbn;
 	private JLabel title;
 	private JLabel chkLen;
+	private JLabel copyNum;
+	private JButton searchButton;
+	private JButton chkoutButton;
+	private JButton printButton;
 	List<Checkout> records = new ArrayList<Checkout>();
 	List<String> rList = new ArrayList<String>();
 	private JTable table;
 	static int row = 0;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -86,49 +92,62 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 		contentPane.add(isbn);
 		isbn.setColumns(10);
 
-		JButton searchButton = new JButton("Search...");
-		searchButton.setBounds(440, 86, 89, 23);
+		searchButton = new JButton("Search...");
+		searchButton.setBounds(440, 104, 89, 23);
 		searchButtonListener(searchButton);
 		contentPane.add(searchButton);
 
-		JButton chkoutButton = new JButton("Checkout...");
-		chkoutButton.setBounds(417, 427, 99, 23);
+		chkoutButton = new JButton("Checkout...");
+		chkoutButton.setBounds(414, 427, 99, 23);
 		chkButtonListener(chkoutButton);
 		contentPane.add(chkoutButton);
 
-		JButton clrButton = new JButton("Clear");
-		clrButton.setBounds(532, 86, 71, 23);
-		clearButtonListener(clrButton);
-		contentPane.add(clrButton);
+		printButton = new JButton("Print");
+		printButton.setBounds(532, 104, 71, 23);
+		printButtonListener(printButton);
+		contentPane.add(printButton);
 
 		JButton backButton = new JButton("<=Back");
-		backButton.setBounds(324, 427, 89, 23);
+		backButton.setBounds(320, 427, 89, 23);
 		backButtonListener(backButton);
 		contentPane.add(backButton);
 
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(517, 427, 89, 23);
-		contentPane.add(cancelButton);
+		JButton overdueButton = new JButton("Overdue");
+		overdueButton.setBounds(517, 427, 89, 23);
+		overdueButtonListener(overdueButton);
+		contentPane.add(overdueButton);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(35, 120, 571, 296);
+		scrollPane.setBounds(35, 162, 571, 254);
 		contentPane.add(scrollPane);
 
 		table = new JTable();
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		table.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, },
-				new String[] { "Member ID", "ISBN", "Book Title", "Maximuim Checkout Length", "Checkout Date",
-						"DueDate" }));
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Member ID", "ISBN", "Book Title", "Maximuim Checkout Length", "Checkout Date", "DueDate", "Copy number"
+			}
+		));
 		scrollPane.setViewportView(table);
 
 		JLabel titleLabel = new JLabel("Title:");
@@ -147,6 +166,18 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 		chkLen = new JLabel("");
 		chkLen.setBounds(430, 61, 46, 14);
 		contentPane.add(chkLen);
+
+		JLabel lblNewLabel = new JLabel("Available copies:");
+		lblNewLabel.setBounds(35, 90, 99, 14);
+		contentPane.add(lblNewLabel);
+
+		copyNum = new JLabel("");
+		copyNum.setBounds(144, 90, 89, 14);
+		contentPane.add(copyNum);
+		
+		lblNewLabel_1 = new JLabel("Checkout record.");
+		lblNewLabel_1.setBounds(35, 137, 99, 14);
+		contentPane.add(lblNewLabel_1);
 	}
 
 	@Override
@@ -172,11 +203,13 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 			try {
 				ControllerInterface c = new SystemController();
 				Book book = c.getInfo(memId.getText(), isbn.getText());
-				book.getNextAvailableCopy().changeAvailability();
+				BookCopy copy  = book.getNextAvailableCopy();
 				title.setText(book.getTitle());
 				chkLen.setText(String.valueOf(book.getMaxCheckoutLength()));
-				Checkout recd = new Checkout(memId.getText(), book, LocalDate.now(),
-						LocalDate.now().plusDays(book.getMaxCheckoutLength()));
+				copyNum.setText(String.valueOf(getNumOfAvailableCopies(book.getCopies())));
+				copy.changeAvailability();
+				Checkout recd = new Checkout(memId.getText(), copy, LocalDate.now(),
+						LocalDate.now().plusDays(book.getMaxCheckoutLength()),copy.getCopyNum());
 				records.add(recd);
 				rList.add(book.getIsbn() + " " + book.getTitle() + " " + LocalDate.now().toString() + " "
 						+ LocalDate.now().plusDays(book.getMaxCheckoutLength()).toString());
@@ -186,6 +219,7 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 				isbn.setText("");
 				title.setText("");
 				chkLen.setText("");
+				copyNum.setText("");
 			}
 
 		});
@@ -193,50 +227,71 @@ public class LibrarionWindow extends JFrame implements LibWindow {
 
 	private void chkButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			ControllerInterface c = new SystemController();
-			for (int i = 0; i < records.size(); i++) {
-				try {
-					c.updateBook(records.get(i).getBook());
-					c.saveRecord(records.get(i));
-					table.getModel().setValueAt(records.get(i).getMemId(), row, 0);
-					table.getModel().setValueAt(records.get(i).getBook().getIsbn(), row, 1);
-					table.getModel().setValueAt(records.get(i).getBook().getTitle(), row, 2);
-					table.getModel().setValueAt(records.get(i).getBook().getMaxCheckoutLength(), row, 3);
-					table.getModel().setValueAt(records.get(i).getCheckoutDate(), row, 4);
-					table.getModel().setValueAt(records.get(i).getDueDate(), row, 5);
-				} catch (BookException ex) {
-					ex.printStackTrace();
-				}
+			if (!memId.getText().equals("")) {
+				ControllerInterface c = new SystemController();
+				for (int i = 0; i < records.size(); i++) {
+					try {
+						c.updateBook(records.get(i).getCopy().getBook());
+						c.saveRecord(records.get(i));
+						table.getModel().setValueAt(records.get(i).getMemId(), row, 0);
+						table.getModel().setValueAt(records.get(i).getCopy().getBook().getIsbn(), row, 1);
+						table.getModel().setValueAt(records.get(i).getCopy().getBook().getTitle(), row, 2);
+						table.getModel().setValueAt(records.get(i).getCopy().getBook().getMaxCheckoutLength(), row, 3);
+						table.getModel().setValueAt(records.get(i).getCheckoutDate(), row, 4);
+						table.getModel().setValueAt(records.get(i).getDueDate(), row, 5);
+						table.getModel().setValueAt(records.get(i).getCopy().getCopyNum(), row, 6);
+					} catch (BookException ex) {
+						ex.printStackTrace();
+					}
 
+				}
+				row++;
+				JOptionPane.showMessageDialog(this, "Successful.");
+				memId.setText("");
+				isbn.setText("");
+				rList.clear();
+				title.setText("");
+				chkLen.setText("");
+				copyNum.setText("");
 			}
-			row++;
-			JOptionPane.showMessageDialog(this, "Successful.");
-			memId.setText("");
-			isbn.setText("");
-			rList.clear();
-			title.setText("");
-			chkLen.setText("");
 		});
 	}
 
-	private void clearButtonListener(JButton butn) {
+	private void printButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			memId.setText("");
-			isbn.setText("");
-			rList.clear();
-			title.setText("");
-			chkLen.setText("");
+			ControllerInterface c = new SystemController();
+			c.print(memId.getText());
 		});
 	}
 
 	private void backButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
+			LibrarionWindow.INSTANCE.setVisible(false);
 			if (SystemController.currentAuth.equals(Auth.BOTH))
 				BothUserWindow.INSTANCE.setVisible(true);
 			else
 				LibrarySystem.INSTANCE.setVisible(true);
 
 		});
+	}
+	private void overdueButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+			LibrarySystem.hideAllWindows();
+			OverdueWindow.INSTANCE.init();
+			Util.centerFrameOnDesktop(OverdueWindow.INSTANCE);
+			OverdueWindow.INSTANCE.setVisible(true);
+
+		});
+	}
+
+	public int getNumOfAvailableCopies(BookCopy[] copies) {
+		int cnt = 0;
+		for (int i = 0; i < copies.length; i++) {
+			if (copies[i].isAvailable()) {
+				cnt++;
+			}
+		}
+		return cnt;
 	}
 }

@@ -19,6 +19,7 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static final BothUserWindow INSTANCE = new BothUserWindow();
+	private boolean isInitialized = false;
 
 	/**
 	 * Launch the application.
@@ -74,7 +75,7 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 				BookWindow.INSTANCE.setVisible(true);
 			}
 		});
-		btnAddBook.setBounds(317, 133, 156, 41);
+		btnAddBook.setBounds(317, 100, 156, 41);
 		contentPane.add(btnAddBook);
 		
 		JButton btnCheckOutButton_2 = new JButton("Check Out");
@@ -87,8 +88,14 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 				LibrarionWindow.INSTANCE.setVisible(true);
 			}
 		});
-		btnCheckOutButton_2.setBounds(317, 353, 156, 41);
+		btnCheckOutButton_2.setBounds(317, 224, 156, 41);
 		contentPane.add(btnCheckOutButton_2);
+		
+		JButton overdueButton = new JButton("Overdue");
+		overdueButton.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCheckout.png")));
+		overdueButtonListener(overdueButton);
+		overdueButton.setBounds(317, 288, 156, 41);
+		contentPane.add(overdueButton);
 		
 		JButton btnAddCopyButton_3 = new JButton("Add Copy");
 		btnAddCopyButton_3.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/addCopy.png")));
@@ -101,7 +108,7 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 
 			}
 		});
-		btnAddCopyButton_3.setBounds(317, 244, 156, 41);
+		btnAddCopyButton_3.setBounds(317, 162, 156, 41);
 		contentPane.add(btnAddCopyButton_3);
 		
 		JLabel titleLabel = new JLabel("");
@@ -112,6 +119,10 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 		jlabelLabel.setIcon(new ImageIcon(BothUserWindow.class.getResource("/librarysystem/libraryAgain.jpg")));
 		jlabelLabel.setBounds(0, 11, 265, 452);
 		contentPane.add(jlabelLabel);
+		JButton backButton = new JButton("<= Back");
+		backButton.setBounds(507, 414, 95, 23);
+		addBackButtonListener(backButton);
+		contentPane.add(backButton);
 	}
 
 	@Override
@@ -123,12 +134,28 @@ public class BothUserWindow extends JFrame  implements LibWindow{
 	@Override
 	public boolean isInitialized() {
 		// TODO Auto-generated method stub
-		return false;
+		return isInitialized;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
 		// TODO Auto-generated method stub
-		
+		isInitialized = val;
+	}
+	private void addBackButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+			LibrarySystem.hideAllWindows();
+			LibrarySystem.INSTANCE.setVisible(true);
+		});
+	}
+	
+	private void overdueButtonListener(JButton butn) {
+		butn.addActionListener(evt -> {
+			LibrarySystem.hideAllWindows();
+			OverdueWindow.INSTANCE.init();
+			Util.centerFrameOnDesktop(OverdueWindow.INSTANCE);
+			OverdueWindow.INSTANCE.setVisible(true);
+
+		});
 	}
 }

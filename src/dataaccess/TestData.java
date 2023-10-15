@@ -31,7 +31,7 @@ public class TestData {
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
-		System.out.println(da.readRecordsMap());
+		// System.out.println(da.readRecordsMap());
 	}
 
 	/// create books
@@ -67,9 +67,8 @@ public class TestData {
 
 	// create checkout record data
 	public void recordData() {
-		Checkout record = new Checkout("1002",
-				new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
-				LocalDate.now(), LocalDate.now());
+		Checkout record = new Checkout("1010", allBooks.get(0).getNextAvailableCopy(), LocalDate.parse("2018-11-01"),
+				LocalDate.parse("2018-12-01"), 1);
 		allRecords.add(record);
 		DataAccessFacade.loadRecordMap(allRecords);
 	}
@@ -114,18 +113,19 @@ public class TestData {
 	@SuppressWarnings("serial")
 	List<User> allUsers = new ArrayList<User>() {
 		{
-			add(new User("101", "xyz", Auth.LIBRARIAN));
-			add(new User("102", "abc", Auth.ADMIN));
-			add(new User("103", "111", Auth.BOTH));
+			add(new User("Hebron", "hebronpwd", Auth.LIBRARIAN));
+			add(new User("Pranjal", "pranjalpwd", Auth.ADMIN));
+			add(new User("Dava", "davapwd", Auth.BOTH));
 		}
 	};
 
 	@SuppressWarnings("serial")
 	List<Checkout> allRecords = new ArrayList<Checkout>() {
 		{
-			add(new Checkout("1001",
-					new Book("23-11451", "The Big Fish", 21, Arrays.asList(allAuthors.get(0), allAuthors.get(1))),
-					LocalDate.now(), LocalDate.now()));
+			/*
+			 * add(new Checkout("101023-114511",allBooks.get(0).getCopy(0), LocalDate.now(),
+			 * LocalDate.now(),1));
+			 */
 		}
 	};
 }
